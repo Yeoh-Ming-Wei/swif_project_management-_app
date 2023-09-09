@@ -1,11 +1,11 @@
 import Message from "./Message"
-import InputList from "./components/InputList"
+import CreateTask from "./CreateTask"
 
 function App() {
   return(
     <div className="container">
       <Message />
-      <InputList />
+      <CreateTask />
     </div>
   )
 }
