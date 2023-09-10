@@ -5,6 +5,7 @@ import InputTextArea from "./components/InputTextArea"
 const taskTypeSelection = ["User Story", "Bug"]
 const prioritySelection = ["Low", "Medium", "Important", "Urgent"]
 const storyTagSelection = ["Frontend", "Backend", "API", "Framework", "Testing", "UI", "UX", "Database"]
+const storyPointSelection = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 const taskStageSelection = ["Planning", "Development", "In Progress", "Completed"]
 
 
@@ -19,6 +20,7 @@ const collectData = () => {
         description :  elementValue("Description"),
         priority : elementValue("Priority"),
         tag : elementValue("User Story Tag"),
+        storypoint : elementValue("Story Point"),
         member : elementValue("Assign To"), 
         taskstage : elementValue("Task Stage")
     }
@@ -40,6 +42,7 @@ const CreateTask = () => {
                 <InputTextArea name = "Description" />
                 <InputDropdown name = "Priority" selection = {prioritySelection}/>
                 <InputDropdown name = "User Story Tag" selection = {storyTagSelection}/>
+                <InputDropdown name = "Story Point" selection = {storyPointSelection}/>
                 <InputDropdown name = "Assign To" selection = {[]}/>
                 <InputDropdown name = "Task Stage" selection = {taskStageSelection}/>
 
