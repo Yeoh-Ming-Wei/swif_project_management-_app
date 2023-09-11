@@ -14,11 +14,13 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
+
       <nav>
         <Link to="">Home</Link>
         <> | </> 
         <Link to="projects">Projects</Link>
       </nav>
+
       <Routes>
           <Route index element={<Home />} />
           <Route path="projects" element={<Projects />} />
@@ -27,6 +29,7 @@ function App() {
           <Route path="product-backlog" element={<Team />} />
           <Route path="*" element={<MissingPage />} />
       </Routes>
+      
     </BrowserRouter>
   );
 }
