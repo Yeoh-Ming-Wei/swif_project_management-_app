@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdList, MdDelete } from "react-icons/md";
+import { RiTeamFill } from 'react-icons/ri'
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -75,7 +76,7 @@ const ProjectView = () => {
                     <div><MdList size={36} /></div>
                     <div>Product Backlog</div>
                     <div> <br /> </div>
-                    <div><MdList size={36} /></div>
+                    <div><RiTeamFill size={36} /></div>
                     <div>Team</div>
                 </button>
             </div>
