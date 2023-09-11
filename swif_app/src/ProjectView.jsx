@@ -42,6 +42,9 @@ const ProjectView = () => {
                 >
                     <div><MdList size={36} /></div>
                     <div>Product Backlog</div>
+                    <div> <br /> </div>
+                    <div><MdList size={36} /></div>
+                    <div>Team</div>
                 </button>
             </div>
         </>
