@@ -52,3 +52,32 @@
   display: flex;
   flex-direction: row;
 }
+
+.popup-content {
+  background-color: rgb(41, 45, 62);
+  color: #fff;
+  border: 1px solid #9a9595;
+  margin: auto;
+  width: 50%;
+  padding: 5px;
+}
+
+.popup-arrow > svg {
+  color: rgb(41, 45, 62);
+  stroke-width: 2px;
+  stroke: #9a9595;
+  stroke-dasharray: 30px;
+  stroke-dashoffset: -54px;
+}
+
+[role='tooltip'].popup-content {
+  width: 200px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+}
+
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+[data-popup='tooltip'].popup-overlay {
+  background: transparent;
+}
