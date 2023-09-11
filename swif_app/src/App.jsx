@@ -6,6 +6,7 @@ import Home from "./Home";
 import Projects from "./Projects";
 import ProjectView from "./ProjectView";
 import MissingPage from "./MissingPage";
+import ProductBacklog from './ProductBacklog';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 // useful reference: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
@@ -21,9 +22,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path="projects" element={<Projects />} />
           <Route path="view" element={<ProjectView />} />
-          
+          <Route path="product-backlog" element={<ProductBacklog />} />
           <Route path="*" element={<MissingPage />} />
-        
       </Routes>
     </BrowserRouter>
   );
