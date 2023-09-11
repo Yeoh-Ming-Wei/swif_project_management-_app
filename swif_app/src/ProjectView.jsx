@@ -73,10 +73,19 @@ const ProjectView = () => {
                     className="button" 
                     onClick={() => navigate("/product-backlog")} // Add the onClick event here
                 >
-                    <div><MdList size={36} /></div>
+                    <div><MdList size={80} /></div>
                     <div>Product Backlog</div>
-                    <div> <br /> </div>
-                    <div><RiTeamFill size={36} /></div>
+
+                </button>
+            </div>
+            <div> <br /> </div>
+            <div display={"flex"} flex-direction={"row"}>
+                <button 
+                    type="button" 
+                    className="button" 
+                    onClick={() => navigate("/product-backlog")} // Add the onClick event here
+                >
+                    <div><RiTeamFill size={85} /></div>
                     <div>Team</div>
                 </button>
             </div>
