@@ -1,4 +1,7 @@
 import { MdList } from "react-icons/md";
+import React from 'react';
+import { useNavigate } from "react-router-dom";
+
 
 const getState = () => {
     const storedState = JSON.parse(localStorage.getItem("state")); // converting from string to object
@@ -24,19 +27,25 @@ const getActiveProject = () => {
 }
 
 const ProjectView = () => {
+    const navigate = useNavigate();  // Add this line to make use of navigation
+
     return (
         <>
             <h1>Project View</h1>
             {JSON.stringify(getState())}
             <h2>Project Name: {getActiveProject().id}</h2>
             <div display={"flex"} flex-direction={"row"}>
-                <button type="button" className="button">
+                <button 
+                    type="button" 
+                    className="button" 
+                    onClick={() => navigate("/product-backlog")} // Add the onClick event here
+                >
                     <div><MdList size={36} /></div>
                     <div>Product Backlog</div>
                 </button>
             </div>
         </>
-    )
+    );
 }
 
-export default ProjectView
+export default ProjectView;
