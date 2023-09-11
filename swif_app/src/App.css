@@ -101,3 +101,10 @@
   flex: 1; /* This makes sure the main content takes up the remaining space */
   padding: 20px;
 }
+.create-task-form {
+  text-align:left;
+}
+
+.create-task-items {
+  
+}

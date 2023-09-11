@@ -124,7 +124,8 @@ const Projects = () => {
                     </div>
                 </Popup>
             </div>
-        );};
+        );
+    };
 
     // component to display projects
     const projectDisplay =
