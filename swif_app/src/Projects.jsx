@@ -1,34 +1,34 @@
 import { useState, useEffect } from 'react';
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MdFolder, MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
 const Projects = () => {
-    const INITIAL_STATE = {
+    const INITIAL_PROJECTS = {
         // testCount: 0,
         projects: [],
         activeProject: null,
     };
 
-    const getState = () => {
-        const storedState = JSON.parse(localStorage.getItem("state")); // converting from string to object
-        if (storedState) {
-          console.log("stored state found, restoring", storedState);
-          return storedState;
+    const getProject = () => {
+        const storedProjects = JSON.parse(localStorage.getItem("projects")); // converting from string to object
+        if (storedProjects) {
+          console.log("stored projects found, restoring", storedProjects);
+          return storedProjects;
         } else {
-          console.log("no state found, initialising state", INITIAL_STATE);
-          return INITIAL_STATE;
+          console.log("no projects found, initialising projects", INITIAL_PROJECTS);
+          return INITIAL_PROJECTS;
         }
     };
 
     // initialise using stored state, if any, or the intial state otherwise
-    const [state, setState] = useState(getState());
+    const [project, setProject] = useState(getProject());
 
-    // runs whenever state changes
+    // runs whenever projects change
     useEffect(() => {
-        console.log("writing state to local storage", state);
-        localStorage.setItem("state", JSON.stringify(state)); // convert to string before storing
-    }, [state]);
+        console.log("writing project to local storage", project);
+        localStorage.setItem("projects", JSON.stringify(project)); // convert to string before storing
+    }, [project]);
 
 
     const [name, setName] = useState("");
@@ -52,15 +52,15 @@ const Projects = () => {
         // alert("project opened: " + projectName);
         console.log("project opened: " + projectName);
         // set active project
-        setState({
-            ...state,
+        setProject({
+            ...project,
             activeProject: projectName
         })
 
     }
 
     const getProjectElements = () => {
-        return <>{state.projects.map((projectName) => createProjectElement(projectName.id))}</>
+        return <>{project.projects.map((projectName) => createProjectElement(projectName.id))}</>
     }
 
     // runs whenever form is submitted
@@ -71,8 +71,8 @@ const Projects = () => {
                 alert("Project name cannot be empty!");
                 return false;
             }
-            console.log(state.projects)
-            if (state.projects.includes(name)) {
+            console.log(project.projects)
+            if (project.projects.includes(name)) {
                 console.log("duplicate project name, rejecting");
                 alert("Project with that name already exists! Please choose a different name.")
                 return false;
@@ -85,10 +85,11 @@ const Projects = () => {
         if (!isValidProjectName(name)) { return } // don't accept invalid names
         const newProject = {
             id: name,
+            tasks: [],
         }
-        setState({
-            ...state,
-            projects: state.projects.concat(newProject)
+        setProject({
+            ...project,
+            projects: project.projects.concat(newProject)
         })
     }
 
@@ -130,19 +131,19 @@ const Projects = () => {
     // component to display projects
     const projectDisplay =
         <div className="project-elements-display">
-            {(state.projects.length > 0) ? "" : <h4>You have no projects! Click the button below to add one.</h4>}
+            {(project.projects.length > 0) ? "" : <h4>You have no projects! Click the button below to add one.</h4>}
             {getProjectElements()}
         </div>;
 
     return (
         <>
             <h1>Projects</h1>
-            {JSON.stringify(state)}
+            {JSON.stringify(project)}
             {projectDisplay}
             {createProjectPopup()}
 {/*             
             <button onClick={() => setState({ ...state, testCount: state.testCount + 1 })}>update state</button> */}
-            <button onClick={() => setState(INITIAL_STATE)}>reset</button>
+            <button onClick={() => setProject(INITIAL_PROJECTS)}>reset</button>
             <button onClick={() => localStorage.clear()}>clear</button>
     
             

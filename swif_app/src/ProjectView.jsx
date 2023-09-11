@@ -1,29 +1,28 @@
 import { useState, useEffect } from 'react';
 import { MdList, MdDelete } from "react-icons/md";
 import { RiTeamFill } from 'react-icons/ri'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const ProjectView = () => {
-    
-    const getState = () => {
-        const storedState = JSON.parse(localStorage.getItem("state")); // converting from string to object
-        if (storedState) {
-        console.log("stored state found, restoring", storedState);
-        return storedState;
+    const getProject = () => {
+        const storedProjects = JSON.parse(localStorage.getItem("projects")); // converting from string to object
+        if (storedProjects) {
+          console.log("stored projects found, restoring", storedProjects);
+          return storedProjects;
         } else {
-        console.log("no state found, initialising state", INITIAL_STATE);
-        return INITIAL_STATE;
+          console.log("no projects found, initialising projects", INITIAL_PROJECTS);
+          return INITIAL_PROJECTS;
         }
     };
 
-    const [state, setState] = useState(getState());
+    const [project, setProject] = useState(getProject());
 
-    // runs whenever state changes
+    // runs whenever projects change
     useEffect(() => {
-        console.log("writing state to local storage", state);
-        localStorage.setItem("state", JSON.stringify(state)); // convert to string before storing
-    }, [state]);
+        console.log("writing project to local storage", project);
+        localStorage.setItem("projects", JSON.stringify(project)); // convert to string before storing
+    }, [project]);
 
     // const getActiveProject = () => {
     //     // looks for active project in project array
@@ -43,9 +42,9 @@ const ProjectView = () => {
     const deleteProject = () => {
         console.log("deleting project");
         // projects array with project removed
-        const newProjects = state.projects.filter(project => (project.id !== state.activeProject))
-        setState({
-            ...state,
+        const newProjects = project.projects.filter(project => (project.id !== project.activeProject))
+        setProject({
+            ...project,
             projects: newProjects,
             activeProject: null
         });
@@ -65,8 +64,8 @@ const ProjectView = () => {
     return (
         <>
             <h1>Project View</h1>
-            {JSON.stringify(state)}
-            <h2>Project Name: {state.activeProject}</h2>
+            {JSON.stringify(project)}
+            <h2>Project Name: {project.activeProject}</h2>
             <div display={"flex"} flex-direction={"row"}>
                 <button 
                     type="button" 
