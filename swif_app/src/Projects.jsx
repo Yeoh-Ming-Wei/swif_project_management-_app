@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { MdFolder, MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
 const Projects = () => {
     const INITIAL_STATE = {
-        testCount: 0,
+        // testCount: 0,
         projects: [],
+        activeProject: null,
     };
 
     const getState = () => {
@@ -33,6 +33,36 @@ const Projects = () => {
 
     const [name, setName] = useState("");
 
+
+
+    const createProjectElement = (projectName) => {
+        return (
+            <Link to="../view" style={{color:"white"}}>
+                <button className="project-element" key={projectName} onMouseEnter={() => {updateActiveProject(projectName)}} >
+                    <div><MdFolder size={100} /></div>
+                    <div>{projectName}</div>
+                
+                </button>
+            </Link>
+        );
+    }
+
+    // runs when projects are hovered over
+    const updateActiveProject = (projectName) => {
+        // alert("project opened: " + projectName);
+        console.log("project opened: " + projectName);
+        // set active project
+        setState({
+            ...state,
+            activeProject: projectName
+        })
+
+    }
+
+    const getProjectElements = () => {
+        return <>{state.projects.map((projectName) => createProjectElement(projectName.id))}</>
+    }
+
     // runs whenever form is submitted
     const handleSubmit = (event) => {
         const isValidProjectName = (name) => {
@@ -53,31 +83,13 @@ const Projects = () => {
         console.log('submitting form')
 
         if (!isValidProjectName(name)) { return } // don't accept invalid names
+        const newProject = {
+            id: name,
+        }
         setState({
             ...state,
-            projects: state.projects.concat(name)
+            projects: state.projects.concat(newProject)
         })
-    }
-
-    const createProjectElement = (projectName) => {
-        return (
-            <div className="project-element" key={projectName} onClick={() => {openProject(projectName)}} >
-                <Link to="/projects" style={{color:"white"}}>
-                    <div><MdFolder size={100}></MdFolder></div>
-                    <div>{projectName}</div>
-                </Link>
-            </div>
-        );
-    }
-
-    const openProject = (projectName) => {
-        alert("project opened: " + projectName);
-        console.log("project opened: " + projectName);
-    }
-
-    const getProjectElements = () => {
-        const projectList = state.projects;
-        return <>{projectList.map((projectName) => createProjectElement(projectName))}</>
     }
 
     const addProjectForm = () => {
@@ -96,12 +108,13 @@ const Projects = () => {
     }
 
     const [open, setOpen] = useState(false);
+
     const createProjectPopup = () => {
         const closeModal = () => setOpen(false);
         return (
             <div display={"flex"} flex-direction={"row"}>
                 <button type="button" className="button" onClick={() => setOpen(o => !o)} >
-                    <div><MdAddBox size={36} ></MdAddBox></div>
+                    <div><MdAddBox size={36} /></div>
                     <div>Create New Project</div>
                 </button>
                 <Popup open={open} closeOnDocumentClick onClose={closeModal}>
@@ -115,17 +128,19 @@ const Projects = () => {
 
     // component to display projects
     const projectDisplay =
-    <div className="project-elements-display">
-        {getProjectElements()}
-    </div>;
+        <div className="project-elements-display">
+            {(state.projects.length > 0) ? "" : <h4>You have no projects! Click the button below to add one.</h4>}
+            {getProjectElements()}
+        </div>;
 
     return (
         <>
+            <h1>Projects</h1>
             {JSON.stringify(state)}
-            <h2>{projectDisplay}</h2>
+            {projectDisplay}
             {createProjectPopup()}
-            
-            <button onClick={() => setState({ ...state, testCount: state.testCount + 1 })}>update state</button>
+{/*             
+            <button onClick={() => setState({ ...state, testCount: state.testCount + 1 })}>update state</button> */}
             <button onClick={() => setState(INITIAL_STATE)}>reset</button>
             <button onClick={() => localStorage.clear()}>clear</button>
     
