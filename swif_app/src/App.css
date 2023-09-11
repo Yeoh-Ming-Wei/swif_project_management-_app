@@ -40,3 +40,15 @@
 .read-the-docs {
   color: #888;
 }
+
+.project-element {
+  line-height: 1;
+  /* font-size: 20px; */
+  /* font-weight: 400; */
+  margin: 5px;
+}
+
+.project-elements-display {
+  display: flex;
+  flex-direction: row;
+}
