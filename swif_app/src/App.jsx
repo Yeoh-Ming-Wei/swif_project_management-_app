@@ -10,7 +10,6 @@ import ProductBacklog from './ProductBacklog';
 import Team from './Team';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-
 // useful reference: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
 function App() {
   return (

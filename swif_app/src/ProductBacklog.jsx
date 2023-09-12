@@ -133,8 +133,8 @@ const ProductBacklog = () => {
                         priority={prioritySelection[t.priority]} 
                         storyPoint={storyPointSelection[t.storyPoint]}
                         key = "" />
-                        <a href="#" class="card-link">Edit</a>
-                        <a href="#" class="card-link" onClick={() => {
+                        <a href="#" className="card-link">Edit</a>
+                        <a href="#" className="card-link" onClick={() => {
                             setTasks(tasks.filter(tfilter => tfilter.id != t.id))
                         }}>Remove</a>
                     </>
