@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import InputDropdown from "./components/InputDropdown";
 import InputTextArea from "./components/InputTextArea";
-import Card from "./components/Card";
 
 import { MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
@@ -40,22 +39,19 @@ const ProductBacklog = () => {
     const TaskView = () => taskElements
 
     const CreateTask = () => {
-        
-        
         const elementValue = (str) => (document.getElementById(str).value);
-    
     
         const collectData = () => {
             const newTask = {
                 id: taskID,
                 name: elementValue("Name"),
-                tasktype: elementValue("Task Type"),
+                taskType: elementValue("Task Type"),
                 description: elementValue("Description"),
                 priority: elementValue("Priority"),
                 tag: elementValue("User Story Tag"),
-                storypoint: elementValue("Story Point"),
+                storyPoints: elementValue("Story Points"),
                 member: elementValue("Assign To"),
-                taskstage: elementValue("Task Stage"),
+                taskStage: elementValue("Task Stage"),
             };
     
             console.log('saving task',newTask);
@@ -75,7 +71,7 @@ const ProductBacklog = () => {
                 <InputTextArea name="Description" />
                 <InputDropdown name="Priority" selection={prioritySelection} />
                 <InputDropdown name="User Story Tag" selection={storyTagSelection} />
-                <InputDropdown name="Story Point" selection={storyPointSelection} />
+                <InputDropdown name="Story Points" selection={storyPointSelection} />
                 <InputDropdown name="Assign To" selection={[]} />
                 <InputDropdown name="Task Stage" selection={taskStageSelection} />
 
@@ -109,6 +105,59 @@ const ProductBacklog = () => {
     
         return createTaskPopup();  
     };
+
+    const Card = ({id, title, taskStage, priority, storyPoints, editFunction, deleteFunction}) => {
+
+        const bgColours = (priority) => {
+          switch(priority) {
+            case "Urgent": 
+              return "red"
+            case "Important":
+              return "yellow"
+            case "Medium": 
+              return "yellowgreen"
+            case "Low": 
+              return "lightgreen"
+            default: 
+              return "darkgrey"
+          }
+        }
+    
+        const textColours = (priority) => {
+          switch(priority) {
+            case "Urgent": 
+              return "white"
+            case "Important":
+              return "black"
+            case "Medium": 
+              return "black"
+            case "Low": 
+              return "black"
+            default: 
+              return "white"
+          }
+        }
+    
+        return (
+          <div id={id} className={"card"}  style={{width: '18rem', height: '10rem', margin: "10px", backgroundColor: bgColours(priority), color: textColours(priority), borderRadius: "20px"}}>
+            <div className="card-body">
+              <h3 className="card-title" align="left">{title}</h3>
+              
+              <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+                <h3 className="card-text" align="left">{taskStage}</h3>
+                <h3 className="card-text" align="right">{storyPoints}</h3>
+              </div>
+              <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
+                <button>Edit</button>
+                <button onClick={deleteFunction}>Delete</button>
+                
+              </div>
+              
+            </div>
+            
+          </div>
+        )
+    }
     return (
         <>
             <h1>{productName}</h1>
@@ -129,20 +178,17 @@ const ProductBacklog = () => {
             }
             <hr />
             {tasks.map(t => (    
-                    <>
-                        <Card 
+                <>
+                    <Card 
                         id = {"card" + t.id}
-                        title = {t.name} taskStage={taskStageSelection[t.taskstage]} 
+                        title = {t.name} taskStage={taskStageSelection[t.taskStage]} 
                         priority={prioritySelection[t.priority]} 
-                        storyPoint={storyPointSelection[t.storyPoint]}
-                        key = "" />
-                        <a href="#" className="card-link">Edit</a>
-                        <a href="#" className="card-link" onClick={() => {
-                            setTasks(tasks.filter(tfilter => tfilter.id != t.id))
-                        }}>Remove</a>
-                    </>
+                        storyPoints= {storyPointSelection[parseInt(t.storyPoints)]}
+                        key = {t.id}
+                        deleteFunction={() => setTasks(tasks.filter(tfilter => tfilter.id != t.id))}
+                    />
+                </>
             ))}
-
         </>
     )
 };
