@@ -6,6 +6,8 @@ import Card from "./components/Card";
 import { MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
+let taskID = 0;
+
 const ProductBacklog = () => {
     const defaultName = 'Product Backlog';
     const storedName = localStorage.getItem('productName');
@@ -19,7 +21,7 @@ const ProductBacklog = () => {
     const storyTagSelection = ["Frontend", "Backend", "API", "Framework", "Testing", "UI", "UX", "Database"];
     const storyPointSelection = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     const taskStageSelection = ["Planning", "Development", "In Progress", "Completed"];
-
+   
 
     useEffect(() => {
         // Save the product name to localStorage whenever it changes
@@ -39,13 +41,13 @@ const ProductBacklog = () => {
 
     const CreateTask = () => {
         
-        let taskID = 0;
+        
         const elementValue = (str) => (document.getElementById(str).value);
     
     
         const collectData = () => {
             const newTask = {
-                id: taskID++,
+                id: taskID,
                 name: elementValue("Name"),
                 tasktype: elementValue("Task Type"),
                 description: elementValue("Description"),
@@ -59,6 +61,7 @@ const ProductBacklog = () => {
             console.log('saving task',newTask);
             // update state with new task
             setTasks(tasks.concat(newTask));
+            taskID++
         };
     
         const createTaskForm =
@@ -77,7 +80,7 @@ const ProductBacklog = () => {
                 <InputDropdown name="Task Stage" selection={taskStageSelection} />
 
                 {/* <button type="button" className="btn btn-primary me-md-2">Cancel</button> */}
-                <button type="button" className="btn btn-primary" onClick={collectData}>Save</button>
+                <button type="button" className="btn btn-primary" onClick={() => collectData()}>Save</button>
             </div>
             <div className="col"></div>
             </div>

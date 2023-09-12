@@ -1,8 +1,4 @@
-interface Input {
-    name : string
-}
-
-function InputList({ name } : Input) {
+function InputList({ id, name, value }) {
     return (
     <div>
         <div className="mb-3 row">
@@ -10,7 +6,7 @@ function InputList({ name } : Input) {
             {name}
         </label>
         <div className="col-sm-10">
-            <input type="text" className="form-control" id={name}/>
+            <input type="text" className="form-control" id={id} defaultValue={value}/>
         </div>
         
         </div>

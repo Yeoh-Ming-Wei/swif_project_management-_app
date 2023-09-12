@@ -1,13 +1,5 @@
-interface Input {
-    name : string
-    selection : string[]
-}
+function InputDropdown({ id, name , selection = [], value}) {
 
-const selectMap = (selection : string[]) => {
-
-}
-
-function InputDropdown({ name , selection = []} : Input) {
     return (
     <div className="mb-3">
 
@@ -15,10 +7,10 @@ function InputDropdown({ name , selection = []} : Input) {
             {name}
         </label>
 
-        <select className="form-select" id={name}>
+        <select className="form-select" id={id} defaultValue = {value}>
             <option selected>Choose...</option>
             {selection.map((selection ,index) => (
-                <option key={"name"} value={index}> {selection}</option>
+                <option key={"name" + index} value={index}> {selection}</option>
             ))}
             
         </select> 
