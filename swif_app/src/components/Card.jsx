@@ -1,20 +1,37 @@
   const Card = ({id, title, taskStage, priority, storyPoint}) => {
 
-    const classes = (priority) => {
+    const bgColours = (priority) => {
       switch(priority) {
         case "Urgent": 
-          return "card text-bg-danger mb-3"
+          return "red"
         case "Important":
-          return "card text-bg-warning mb-3"
+          return "yellow"
         case "Medium": 
-          return "card text-bg-success mb-3"
+          return "yellowgreen"
+        case "Low": 
+          return "lightgreen"
         default: 
-          return "card"
+          return "white"
+      }
+    }
+
+    const textColours = (priority) => {
+      switch(priority) {
+        case "Urgent": 
+          return "white"
+        case "Important":
+          return "black"
+        case "Medium": 
+          return "black"
+        case "Low": 
+          return "black"
+        default: 
+          return "white"
       }
     }
 
     return (
-      <div id={id} className={classes(priority)} style={{width: '18rem'}}>
+      <div id={id} className={"card mb-3"}  style={{width: '18rem', backgroundColor: bgColours(priority), color: textColours(priority), borderRadius: "20px"}}>
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
           <p className="card-text">{taskStage}</p>
