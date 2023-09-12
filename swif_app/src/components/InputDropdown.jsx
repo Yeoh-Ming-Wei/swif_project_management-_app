@@ -9,7 +9,7 @@ function InputDropdown({name, selection}){
         <select className="form-select" id={name}>
             <option selected>Choose...</option>
             {selection.map((selection ,index) => (
-                <option value={index}> {selection}</option>
+                <option key={"name" + index} value={index}> {selection}</option>
             ))}
             
         </select> 

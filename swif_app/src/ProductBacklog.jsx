@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import InputDropdown from "./components/InputDropdown";
 import InputTextArea from "./components/InputTextArea";
+import Card from "./components/Card";
 
 import { MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
@@ -13,6 +14,13 @@ const ProductBacklog = () => {
     const [editingName, setEditingName] = useState(false);
     const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || []);
 
+    const taskTypeSelection = ["User Story", "Bug"];
+    const prioritySelection = ["Low", "Medium", "Important", "Urgent"];
+    const storyTagSelection = ["Frontend", "Backend", "API", "Framework", "Testing", "UI", "UX", "Database"];
+    const storyPointSelection = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    const taskStageSelection = ["Planning", "Development", "In Progress", "Completed"];
+
+
     useEffect(() => {
         // Save the product name to localStorage whenever it changes
         localStorage.setItem('productName', productName);
@@ -24,35 +32,20 @@ const ProductBacklog = () => {
     }, [tasks]);
 
     const taskElements = tasks.map(
-        (task) => {
-            return(
-                <div>{JSON.stringify(task)}</div>
-            )
-        }
+        (task) => <div key="">{JSON.stringify(task)}</div>  
     )
 
-    const TaskView = () => {
-        return(
-            <>
-                {taskElements}
-            </>
-        )
-    }
+    const TaskView = () => taskElements
 
     const CreateTask = () => {
-        const taskTypeSelection = ["User Story", "Bug"];
-        const prioritySelection = ["Low", "Medium", "Important", "Urgent"];
-        const storyTagSelection = ["Frontend", "Backend", "API", "Framework", "Testing", "UI", "UX", "Database"];
-        const storyPointSelection = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-        const taskStageSelection = ["Planning", "Development", "In Progress", "Completed"];
-    
+        
         let taskID = 0;
         const elementValue = (str) => (document.getElementById(str).value);
     
     
         const collectData = () => {
             const newTask = {
-                id: taskID,
+                id: taskID++,
                 name: elementValue("Name"),
                 tasktype: elementValue("Task Type"),
                 description: elementValue("Description"),
@@ -66,33 +59,30 @@ const ProductBacklog = () => {
             console.log('saving task',newTask);
             // update state with new task
             setTasks(tasks.concat(newTask));
-            // increment ID
-            taskID++;
         };
     
         const createTaskForm =
-        <>
-            <div className="create-task-form">
-                <div className="row">
-                    <div className="col"></div>
-    
-                    <div className="create-task-items">
-                        <InputTextArea name="Name" rows="1"/>
-                        <InputDropdown name="Task Type" selection={taskTypeSelection} />
-                        <InputTextArea name="Description" />
-                        <InputDropdown name="Priority" selection={prioritySelection} />
-                        <InputDropdown name="User Story Tag" selection={storyTagSelection} />
-                        <InputDropdown name="Story Point" selection={storyPointSelection} />
-                        <InputDropdown name="Assign To" selection={[]} />
-                        <InputDropdown name="Task Stage" selection={taskStageSelection} />
-    
-                        {/* <button type="button" className="btn btn-primary me-md-2">Cancel</button> */}
-                        <button type="button" className="btn btn-primary" onClick={collectData}>Save</button>
-                    </div>
-                    <div className="col"></div>
-                </div>
+        <div className="create-task-form">
+            <div className="row">
+            <div className="col"></div>
+
+            <div className="create-task-items">
+                <InputTextArea name="Name" rows="1"/>
+                <InputDropdown name="Task Type" selection={taskTypeSelection} />
+                <InputTextArea name="Description" />
+                <InputDropdown name="Priority" selection={prioritySelection} />
+                <InputDropdown name="User Story Tag" selection={storyTagSelection} />
+                <InputDropdown name="Story Point" selection={storyPointSelection} />
+                <InputDropdown name="Assign To" selection={[]} />
+                <InputDropdown name="Task Stage" selection={taskStageSelection} />
+
+                {/* <button type="button" className="btn btn-primary me-md-2">Cancel</button> */}
+                <button type="button" className="btn btn-primary" onClick={collectData}>Save</button>
             </div>
-        </>
+            <div className="col"></div>
+            </div>
+        </div>
+
     
         const [open, setOpen] = useState(false);
     
@@ -114,11 +104,7 @@ const ProductBacklog = () => {
             );
         };
     
-        return (
-            <>
-                {createTaskPopup()}
-            </>
-        );  
+        return createTaskPopup();  
     };
     return (
         <>
@@ -138,6 +124,22 @@ const ProductBacklog = () => {
             :
                 <button onClick={() => setEditingName(true)}>Change Backlog Name</button>
             }
+            <hr />
+            {tasks.map(t => (    
+                    <>
+                        <Card 
+                        id = {"card" + t.id}
+                        title = {t.name} taskStage={taskStageSelection[t.taskstage]} 
+                        priority={prioritySelection[t.priority]} 
+                        storyPoint={storyPointSelection[t.storyPoint]}
+                        key = "" />
+                        <a href="#" class="card-link">Edit</a>
+                        <a href="#" class="card-link" onClick={() => {
+                            setTasks(tasks.filter(tfilter => tfilter.id != t.id))
+                        }}>Remove</a>
+                    </>
+            ))}
+
         </>
     )
 };
