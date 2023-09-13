@@ -4,6 +4,7 @@ FIT2101 Assignment
 Team: MA_Friday3pm_Team1
 
 Group Members:
+
 Jun Lim 
 Role: Technical Writer, Backend Developer
 Email:  jlim0180@student.monash.edu
@@ -27,7 +28,7 @@ Email: aleo0022@student.monash.edu
 Links:
 
 Google Drive (Documentation):
-https://drive.google.com/drive/folders/1nAUS4qKmZFMfeZnJuwzEP7OzonA0NE1i?usp=drive_link
+https://drive.google.com/drive/folders/1hvpM8HuQ46lOkSx92gGCJb-3O_TS36kA?usp=sharing
 
 Jira (Project Management):
 https://id.atlassian.com/invite/p/jira-software?id=eviw0im7T5G_cnuwIBWvsw
