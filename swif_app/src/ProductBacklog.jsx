@@ -123,7 +123,7 @@ const ProductBacklog = () => {
 				return(task.id === editing);
 			}
 		);
-		const taskBeingEdit = (editing != -1) ? tasks[taskBeingEditedIndex] : {};
+		const taskBeingEdit = (taskBeingEditedIndex != -1) ? tasks[taskBeingEditedIndex] : {};
     
         const saveEditedTaskData = () => {
             const newTask = {
@@ -171,10 +171,8 @@ const ProductBacklog = () => {
             </div>
         </div>
 
-        // const [open, setOpen] = useState(false);
-    
         const editTaskPopup = () => {
-            const closeModal = () => setEditing(false);
+            const closeModal = () => setEditing(-1);
             return (
                 <div>
                     <Popup open={(editing != -1)} closeOnDocumentClick onClose={closeModal}>
