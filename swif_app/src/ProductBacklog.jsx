@@ -23,6 +23,7 @@ const ProductBacklog = () => {
     const prioritySelection = ["Low", "Medium", "Important", "Urgent"];
     const storyTagSelection = ["Frontend", "Backend", "API", "Framework", "Testing", "UI", "UX", "Database"];
     const storyPointSelection = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    const userAssignmentSelection = ["Alice", "Ben", "Carol", "Dennis"];
     const taskStageSelection = ["Planning", "Development", "In Progress", "Completed"];
    
 
@@ -81,7 +82,7 @@ const ProductBacklog = () => {
                 <InputDropdown id = "editPriority" name="Priority" selection={prioritySelection}/>
                 <InputDropdown id = "editTag" name="User Story Tag" selection={storyTagSelection}/>
                 <InputDropdown id = "editStoryPoints" name="Story Points" selection={storyPointSelection}/>
-                <InputDropdown id = "editAssignTo" name="Assign To" selection={[]}/>
+                <InputDropdown id = "editAssignTo" name="Assign To" selection={userAssignmentSelection}/>
                 <InputDropdown id = "editTaskStage" name="Task Stage" selection={taskStageSelection}/>
                 <button type="button" className="btn btn-primary" onClick={() => saveTaskData()}>Save</button>
             </div>
@@ -160,7 +161,7 @@ const ProductBacklog = () => {
                 <InputDropdown id = "editPriority" name="Priority" selection={prioritySelection} value={taskBeingEdit.priority}/>
                 <InputDropdown id = "editTag" name="User Story Tag" selection={storyTagSelection} value={taskBeingEdit.tag}/>
                 <InputDropdown id = "editStoryPoints" name="Story Points" selection={storyPointSelection} value={taskBeingEdit.storyPoints}/>
-                <InputDropdown id = "editAssignTo" name="Assign To" selection={[]} value={taskBeingEdit.member}/>
+                <InputDropdown id = "editAssignTo" name="Assign To" selection={userAssignmentSelection} value={taskBeingEdit.member}/>
                 <InputDropdown id = "editTaskStage" name="Task Stage" selection={taskStageSelection} value={taskBeingEdit.taskStage}/>
 
                 <button type="button" className="btn btn-primary" onClick={() => saveEditedTaskData()}>Save</button>
