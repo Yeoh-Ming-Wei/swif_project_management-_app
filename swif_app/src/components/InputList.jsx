@@ -1,6 +1,6 @@
 import React from "react"
 
-function InputList({name}) {
+function InputList({name, value}) {
     return (
     <div>
         <div className="mb-3 row">
@@ -8,7 +8,7 @@ function InputList({name}) {
             {name}
         </label>
         <div className="col-sm-10">
-            <input type="text" className="form-control" id={name}/>
+            <input type="text" className="form-control" id={name} defaultValue={value}/>
         </div>
         
         </div>

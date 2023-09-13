@@ -5,7 +5,7 @@ import InputTextArea from "./components/InputTextArea";
 import { MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
-let taskID = 0;
+// let taskID = 0;
 
 const ProductBacklog = () => {
     const defaultName = 'Product Backlog';
@@ -13,7 +13,11 @@ const ProductBacklog = () => {
     
     const [productName, setProductName] = useState(storedName || defaultName);
     const [editingName, setEditingName] = useState(false);
+	const [taskId, setTaskId] = useState(JSON.parse(localStorage.getItem("taskId")) || 0);
     const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || []);
+	const [editing, setEditing] = useState(-1); // -1 represents false/not editing
+    const [sort, setSort] = useState(0);
+    const [filter, setFilter] = useState([]);
 
     const taskTypeSelection = ["User Story", "Bug"];
     const prioritySelection = ["Low", "Medium", "Important", "Urgent"];
@@ -21,6 +25,11 @@ const ProductBacklog = () => {
     const storyPointSelection = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     const taskStageSelection = ["Planning", "Development", "In Progress", "Completed"];
    
+
+	useEffect(() => {
+        // Save the task id to localStorage whenever it changes
+        localStorage.setItem('taskId', taskId);
+    }, [taskId]);
 
     useEffect(() => {
         // Save the product name to localStorage whenever it changes
@@ -41,9 +50,9 @@ const ProductBacklog = () => {
     const CreateTask = () => {
         const elementValue = (str) => (document.getElementById(str).value);
     
-        const collectData = () => {
+        const saveTaskData = () => {
             const newTask = {
-                id: taskID,
+                id: taskId,
                 name: elementValue("Name"),
                 taskType: elementValue("Task Type"),
                 description: elementValue("Description"),
@@ -57,7 +66,8 @@ const ProductBacklog = () => {
             console.log('saving task',newTask);
             // update state with new task
             setTasks(tasks.concat(newTask));
-            taskID++
+			// increment ID
+            setTaskId(taskId + 1)
         };
     
         const createTaskForm =
@@ -66,17 +76,16 @@ const ProductBacklog = () => {
             <div className="col"></div>
 
             <div className="create-task-items">
-                <InputTextArea name="Name" rows="1"/>
-                <InputDropdown name="Task Type" selection={taskTypeSelection} />
-                <InputTextArea name="Description" />
-                <InputDropdown name="Priority" selection={prioritySelection} />
-                <InputDropdown name="User Story Tag" selection={storyTagSelection} />
-                <InputDropdown name="Story Points" selection={storyPointSelection} />
-                <InputDropdown name="Assign To" selection={[]} />
-                <InputDropdown name="Task Stage" selection={taskStageSelection} />
-
-                {/* <button type="button" className="btn btn-primary me-md-2">Cancel</button> */}
-                <button type="button" className="btn btn-primary" onClick={() => collectData()}>Save</button>
+			<InputTextArea id = "editName" name="Name" rows="1"/>
+				{/* default to user story */}
+                <InputDropdown id = "editTaskType" name="Task Type" selection={taskTypeSelection} value={0}/>
+                <InputTextArea id = "editDesc" name="Description"/>
+                <InputDropdown id = "editPriority" name="Priority" selection={prioritySelection}/>
+                <InputDropdown id = "editTag" name="User Story Tag" selection={storyTagSelection}/>
+                <InputDropdown id = "editStoryPoints" name="Story Points" selection={storyPointSelection}/>
+                <InputDropdown id = "editAssignTo" name="Assign To" selection={[]}/>
+                <InputDropdown id = "editTaskStage" name="Task Stage" selection={taskStageSelection}/>
+                <button type="button" className="btn btn-primary" onClick={() => saveTaskData()}>Save</button>
             </div>
             <div className="col"></div>
             </div>
@@ -88,7 +97,7 @@ const ProductBacklog = () => {
         const createTaskPopup = () => {
             const closeModal = () => setOpen(false);
             return (
-                <div display={"flex"} flex-direction={"row"}>
+                <div>
                     <button type="button" className="button" onClick={() => setOpen(o => !o)} >
                         <div><MdAddBox size={36} /></div>
                         <div>Create New Task</div>
@@ -106,64 +115,124 @@ const ProductBacklog = () => {
         return createTaskPopup();  
     };
 
+	const EditTask = () => {
+        const elementValue = (str) => (document.getElementById(str).value);
+
+		const taskBeingEditedIndex = tasks.findIndex(
+			(task) => {
+				return(task.id === editing);
+			}
+		);
+		const taskBeingEdit = (editing != -1) ? tasks[taskBeingEditedIndex] : {};
+    
+        const saveEditedTaskData = () => {
+            const newTask = {
+				// id: taskID,
+                id: parseInt(taskBeingEdit.id),
+                name: elementValue("Name"),
+                taskType: elementValue("Task Type"),
+                description: elementValue("Description"),
+                priority: elementValue("Priority"),
+                tag: elementValue("User Story Tag"),
+                storyPoints: elementValue("Story Points"),
+                member: elementValue("Assign To"),
+                taskStage: elementValue("Task Stage"),
+            };
+    
+            console.log('saving edit to task',newTask);
+
+			
+			// modify tasks and update
+			let tasksMutable = tasks.map(x => x); // map does nothing
+			tasksMutable[taskBeingEditedIndex] = newTask;
+			setTasks(tasksMutable);
+			// stop editing and close popup
+			setEditing(-1);
+        };
+    
+        const editTaskForm =
+        <div className="edit-task-form">
+            <div className="row">
+            <div className="col"></div>
+
+            <div className="edit-task-items">
+                <InputTextArea id = "editName" name="Name" rows="1" value ={taskBeingEdit.name}/>
+                <InputDropdown id = "editTaskType" name="Task Type" selection={taskTypeSelection} value={taskBeingEdit.taskType} />
+                <InputTextArea id = "editDesc" name="Description" value={taskBeingEdit.description}/>
+                <InputDropdown id = "editPriority" name="Priority" selection={prioritySelection} value={taskBeingEdit.priority}/>
+                <InputDropdown id = "editTag" name="User Story Tag" selection={storyTagSelection} value={taskBeingEdit.tag}/>
+                <InputDropdown id = "editStoryPoints" name="Story Points" selection={storyPointSelection} value={taskBeingEdit.storyPoints}/>
+                <InputDropdown id = "editAssignTo" name="Assign To" selection={[]} value={taskBeingEdit.member}/>
+                <InputDropdown id = "editTaskStage" name="Task Stage" selection={taskStageSelection} value={taskBeingEdit.taskStage}/>
+
+                <button type="button" className="btn btn-primary" onClick={() => saveEditedTaskData()}>Save</button>
+            </div>
+            <div className="col"></div>
+            </div>
+        </div>
+
+        // const [open, setOpen] = useState(false);
+    
+        const editTaskPopup = () => {
+            const closeModal = () => setEditing(false);
+            return (
+                <div>
+                    <Popup open={(editing != -1)} closeOnDocumentClick onClose={closeModal}>
+                        <div className="modal">
+                            <a className="close" onClick={closeModal}>&times;</a>
+                            {editTaskForm}
+                        </div>
+                    </Popup>
+                </div>
+            );
+        };
+    
+        return editTaskPopup();  
+    };
+
+
     const Card = ({id, title, taskStage, priority, storyPoints, editFunction, deleteFunction}) => {
 
         const bgColours = (priority) => {
           switch(priority) {
             case "Urgent": 
-              return "red"
+            	return "Salmon"
             case "Important":
-              return "yellow"
+            	return "Khaki"
             case "Medium": 
-              return "yellowgreen"
+            	return "PaleGreen"
             case "Low": 
-              return "lightgreen"
+            	return "White"
             default: 
-              return "darkgrey"
-          }
-        }
-    
-        const textColours = (priority) => {
-          switch(priority) {
-            case "Urgent": 
-              return "white"
-            case "Important":
-              return "black"
-            case "Medium": 
-              return "black"
-            case "Low": 
-              return "black"
-            default: 
-              return "white"
+            	return "Gray"
           }
         }
     
         return (
-          <div id={id} className={"card"}  style={{width: '18rem', height: '10rem', margin: "10px", backgroundColor: bgColours(priority), color: textColours(priority), borderRadius: "20px"}}>
-            <div className="card-body">
-              <h3 className="card-title" align="left">{title}</h3>
-              
-              <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-                <h3 className="card-text" align="left">{taskStage}</h3>
-                <h3 className="card-text" align="right">{storyPoints}</h3>
-              </div>
-              <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
-                <button>Edit</button>
-                <button onClick={deleteFunction}>Delete</button>
-                
-              </div>
-              
-            </div>
-            
-          </div>
+			<div id={id} className={"card"}  style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: bgColours(priority), color: "black", borderRadius: "16px"}}>
+				<div className="card-body" style={{display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
+				<h3 className="card-title" align="left">{title}</h3>
+				
+				<div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+					<p className="card-text" align="left">{taskStage}</p>
+					<h3 className="card-text" align="right">{storyPoints}</h3>
+				</div>
+				<div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
+					<button onClick={editFunction}>Edit</button>
+					<button onClick={deleteFunction}>Delete</button>
+					
+				</div>
+				
+				</div>
+				
+			</div>
         )
     }
     return (
         <>
             <h1>{productName}</h1>
-            <TaskView />
-            <CreateTask />
-            {editingName ? 
+			<div>
+			{editingName ? 
                 <div>
                     <input 
                         type="text" 
@@ -176,18 +245,64 @@ const ProductBacklog = () => {
             :
                 <button onClick={() => setEditingName(true)}>Change Backlog Name</button>
             }
+			</div>
+			
+            <TaskView />
+
             <hr />
-            {tasks.map(t => (    
+			editing!{editing}
+			<CreateTask />
+			<EditTask />
+            {tasks.length != 0 ? <div style={{display:"flex", flexDirection:"row", justifyContent:"center", }}>
+				<p> Sort By: </p>
+				<button type="button" className="btn btn-primary mb-3 me-1" onClick={() => {
+					const sorted = tasks.toSorted((a, b) => parseInt(b.priority) - parseInt(a.priority))
+					setTasks(sorted)
+					setSort(1)
+				}}>Priority</button>
+				
+				<button type="button" className="btn btn-primary mb-3 me-5" onClick={() => {
+					const sorted = tasks.toSorted((a, b) => a.id - b.id)
+					setTasks(sorted)
+					setSort(0)
+				}}>Date</button>
+
+				<p> Direction: </p>
+				<button type="button" className="btn btn-secondary mb-3 me-1" onClick={() => {
+					const sorted = (sort == 1 ? tasks.toSorted((a, b) => parseInt(b.priority) - parseInt(a.priority)) : tasks.toSorted((a, b) => a.id - b.id))
+					setTasks(sorted)
+				}}>↑</button>
+
+				<button type="button" className="btn btn-secondary mb-3 me-1" onClick={() => {
+					const sorted = (sort == 1 ? tasks.toSorted((a, b) => parseInt(a.priority) - parseInt(b.priority)) : tasks.toSorted((a, b) => b.id - a.id))
+					setTasks(sorted)
+				}}>↓</button>
+            </div> : <></>}
+			<div style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
+                {tasks.length != 0 ? (
                 <>
-                    <Card 
-                        id = {"card" + t.id}
-                        title = {t.name} taskStage={taskStageSelection[t.taskStage]} 
-                        priority={prioritySelection[t.priority]} 
-                        storyPoints= {storyPointSelection[parseInt(t.storyPoints)]}
-                        key = {t.id}
-                        deleteFunction={() => setTasks(tasks.filter(tfilter => tfilter.id != t.id))}
-                    />
-                </>
+                    <p> Filter By: {filter.map(tag => tag + " ")} </p>
+                    {storyTagSelection.map((tag) => <button type="button" className="btn btn-primary mb-3 me-1" key="" onClick= {() => {
+                        !filter.includes(tag) ? setFilter(filter.concat(tag)) : setFilter(filter.filter(tagFilter => tagFilter != tag))
+                      
+                    }}>{tag}</button>)}
+
+                </>   
+                ) : (<></>)}
+			</div>
+              
+			{tasks.filter(tFilter => filter.length == 0 || filter.includes(storyTagSelection[tFilter.tag])).map(t => (    
+				<>
+					<Card 
+						id = {"card" + t.id}
+						title = {t.name} taskStage={taskStageSelection[t.taskStage]} 
+						priority={prioritySelection[t.priority]} 
+						storyPoints= {storyPointSelection[parseInt(t.storyPoints)]}
+						key = {t.id}
+						editFunction={() => setEditing(t.id)}
+						deleteFunction={() => setTasks(tasks.filter(tfilter => tfilter.id != t.id))}
+					/>
+				</>
             ))}
         </>
     )

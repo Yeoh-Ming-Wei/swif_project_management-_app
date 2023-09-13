@@ -1,4 +1,4 @@
-function InputDropdown({name, selection}){
+function InputDropdown({name, selection, value}){
     return (
     <div className="mb-3">
 
@@ -6,7 +6,7 @@ function InputDropdown({name, selection}){
             {name}
         </label>
 
-        <select className="form-select" id={name}>
+        <select className="form-select" id={name} defaultValue = {value}>
             <option selected>Choose...</option>
             {selection.map((selection ,index) => (
                 <option key={"name" + index} value={index}> {selection}</option>
