@@ -64,9 +64,9 @@ const ProjectView = () => {
     return (
         <>
             <h1>Project View</h1>
-            {JSON.stringify(project)}
+            {/* {JSON.stringify(project)} */}
             <h2>Project Name: {project.activeProject}</h2>
-            <div display={"flex"} flex-direction={"row"}>
+            <div>
                 <button 
                     type="button" 
                     className="button" 
@@ -77,8 +77,7 @@ const ProjectView = () => {
 
                 </button>
             </div>
-            <div> <br /> </div>
-            <div display={"flex"} flex-direction={"row"}>
+            {/* <div>
                 <button 
                     type="button" 
                     className="button" 
@@ -87,7 +86,7 @@ const ProjectView = () => {
                     <div><RiTeamFill size={85} /></div>
                     <div>Team</div>
                 </button>
-            </div>
+            </div> */}
         </>
     );
 }

@@ -45,8 +45,6 @@ const ProductBacklog = () => {
         (task) => <div key="">{JSON.stringify(task)}</div>  
     )
 
-    const TaskView = () => taskElements
-
     const CreateTask = () => {
         const elementValue = (str) => (document.getElementById(str).value);
     
@@ -244,11 +242,8 @@ const ProductBacklog = () => {
                 <button onClick={() => setEditingName(true)}>Change Backlog Name</button>
             }
 			</div>
-			
-            <TaskView />
-
+		
             <hr />
-			editing!{editing}
 			<CreateTask />
 			<EditTask />
             {tasks.length != 0 ? <div style={{display:"flex", flexDirection:"row", justifyContent:"center", }}>
