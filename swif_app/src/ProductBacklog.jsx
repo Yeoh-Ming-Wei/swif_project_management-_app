@@ -260,7 +260,7 @@ const ProductBacklog = () => {
 					setSort(0)
 				}}>Date</button>
 
-				<p> Direction: </p>
+				<p> Order by: </p>
 				<button type="button" className="btn btn-secondary mb-3 me-1" onClick={() => {
 					const sorted = (sort == 1 ? tasks.toSorted((a, b) => parseInt(b.priority) - parseInt(a.priority)) : tasks.toSorted((a, b) => a.id - b.id))
 					setTasks(sorted)

@@ -22,7 +22,7 @@ function App() {
       </nav>
 
       <Routes>
-          <Route index element={<Home />} />
+          <Route index element={<Projects />} />
           <Route path="projects" element={<Projects />} />
           <Route path="view" element={<ProjectView />} />
           <Route path="product-backlog" element={<ProductBacklog />} />
