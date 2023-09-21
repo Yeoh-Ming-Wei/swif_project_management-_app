@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MdList, MdDelete } from "react-icons/md";
+import { MdList, MdDelete, MdDirectionsRun } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const ProjectView = () => {
@@ -55,6 +55,18 @@ const ProjectView = () => {
             <div>Product Backlog</div>
         </button>
 
+    const sprintViewButton =   
+    <button 
+        type="button" 
+        className="button" 
+        onClick={() => navigate("/sprints")}
+    >
+        <div><MdDirectionsRun size={80} /></div>
+        <div>Sprint View</div>
+    </button>
+
+
+
     const deleteProjectButton =
         <button 
             type="button" 
@@ -71,6 +83,7 @@ const ProjectView = () => {
             <h2>Project Name: {project.activeProject}</h2>
             <div>
                 {backlogButton}
+                {sprintViewButton}
                 {deleteProjectButton}
             </div>
         </>
