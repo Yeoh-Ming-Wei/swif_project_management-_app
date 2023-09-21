@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdList, MdDelete } from "react-icons/md";
-import { RiTeamFill } from 'react-icons/ri'
 import { useNavigate } from "react-router-dom";
-
 
 const ProjectView = () => {
     const getProject = () => {
@@ -24,69 +22,57 @@ const ProjectView = () => {
         localStorage.setItem("projects", JSON.stringify(project)); // convert to string before storing
     }, [project]);
 
-    // const getActiveProject = () => {
-    //     // looks for active project in project array
-    //     const match = (getState().projects.find((x)=> {
-    //         return (x.id == getState().activeProject)
-    //     }))
-    //     if (match === undefined) {
-    //         console.log("no match found");
-    //         return {id: "no active project found"}
-    //     }
-    //     return match
-    // }
     const navigate = useNavigate();
-    const navigateToProjects = () => navigate("../projects");
-    const navigateToBacklog = () => navigate("../product-backlog");
 
     const deleteProject = () => {
         console.log("deleting project");
         // projects array with project removed
-        const newProjects = project.projects.filter(project => (project.id !== project.activeProject))
+        const newProjects = project.projects.filter(project_ => {
+            console.log(project_, project_.id, project_);
+            if (project_.id != project.activeProject)
+                return true;
+            else 
+                return false;
+        })
         setProject({
             ...project,
             projects: newProjects,
             activeProject: null
         });
+        setTimeout(() => {         // delay navigation very slightly, to allow code above to take effect (hacky solution)
+            navigate("/projects"); // return to projects view
+        }, 1);
+        
     }
 
     const backlogButton =   
-        <button type="button" className="button" onClick={navigateToBacklog}>
-        <div><MdList size={36} /></div>
-        <div>Product Backlog</div>
+        <button 
+            type="button" 
+            className="button" 
+            onClick={() => navigate("/product-backlog")}
+        >
+            <div><MdList size={80} /></div>
+            <div>Product Backlog</div>
         </button>
 
     const deleteProjectButton =
-        <button type="button" className="button" onClick={deleteProject}>
-        <div><MdDelete size={36} /></div>
-        <div>Delete Project</div>
+        <button 
+            type="button" 
+            className="button"
+            onClick={() => deleteProject()}
+        >
+            <div><MdDelete size={80} /></div>
+            <div>Delete Project</div>
         </button>
+
     return (
         <>
             <h1>Project View</h1>
-            {/* {JSON.stringify(project)} */}
             <h2>Project Name: {project.activeProject}</h2>
             <div>
-                <button 
-                    type="button" 
-                    className="button" 
-                    onClick={() => navigate("/product-backlog")} // Add the onClick event here
-                >
-                    <div><MdList size={80} /></div>
-                    <div>Product Backlog</div>
-
-                </button>
+                {backlogButton}
+                {deleteProjectButton}
             </div>
-            {/* <div>
-                <button 
-                    type="button" 
-                    className="button" 
-                    onClick={() => navigate("/product-backlog")} // Add the onClick event here
-                >
-                    <div><RiTeamFill size={85} /></div>
-                    <div>Team</div>
-                </button>
-            </div> */}
         </>
     );
 }
