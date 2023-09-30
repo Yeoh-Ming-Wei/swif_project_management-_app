@@ -13,10 +13,36 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
-
-      <nav>
-        <Link to="projects">Projects</Link>
-      </nav>
+      <div>
+        <nav>
+          <Link to="projects">Projects</Link>
+        </nav>
+        <div style={{display:"flex", flexDirection:"row", justifyContent:"space-evenly"}}>
+          Adjust font size:
+          <div>
+            <button 
+              type="button" 
+              className="button" 
+              onClick={() => {
+                const currentFontSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('font-size').slice(0,-2));
+                document.documentElement.style.setProperty('font-size', (currentFontSize - 2) + "px");
+              }}
+            >
+              -
+            </button>
+            <button 
+              type="button" 
+              className="button" 
+              onClick={() => {
+                const currentFontSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('font-size').slice(0,-2));
+                document.documentElement.style.setProperty('font-size', (currentFontSize + 2) + "px");
+              }}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
 
       <Routes>
           <Route index element={<Projects />} />

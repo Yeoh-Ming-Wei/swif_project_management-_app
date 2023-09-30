@@ -113,7 +113,7 @@ const Projects = () => {
     const createProjectPopup = () => {
         const closeModal = () => setOpen(false);
         return (
-            <div display={"flex"} flex-direction={"row"}>
+            <div>
                 <button type="button" className="button" onClick={() => setOpen(o => !o)} >
                     <div><MdAddBox size={36} /></div>
                     <div>Create New Project</div>
