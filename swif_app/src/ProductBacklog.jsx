@@ -5,8 +5,6 @@ import InputTextArea from "./components/InputTextArea";
 import { MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
-// let taskID = 0;
-
 const ProductBacklog = () => {
     const defaultName = 'Product Backlog';
     const storedName = localStorage.getItem('productName');
@@ -41,10 +39,6 @@ const ProductBacklog = () => {
         console.log("updating tasks to local storage", tasks);
         localStorage.setItem("tasks", JSON.stringify(tasks)); // convert to string before storing
     }, [tasks]);
-
-    const taskElements = tasks.map(
-        (task) => <div key="">{JSON.stringify(task)}</div>  
-    )
 
     const CreateTask = () => {
         const elementValue = (str) => (document.getElementById(str).value);
