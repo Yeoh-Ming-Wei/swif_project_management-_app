@@ -72,7 +72,7 @@ const Projects = () => {
                 return false;
             }
             console.log(project.projects)
-            if (project.projects.includes(name)) {
+            if (project.projects.filter((project) => (project.id == name)).length > 0) {
                 console.log("duplicate project name, rejecting");
                 alert("Project with that name already exists! Please choose a different name.")
                 return false;
@@ -113,7 +113,7 @@ const Projects = () => {
     const createProjectPopup = () => {
         const closeModal = () => setOpen(false);
         return (
-            <div display={"flex"} flex-direction={"row"}>
+            <div>
                 <button type="button" className="button" onClick={() => setOpen(o => !o)} >
                     <div><MdAddBox size={36} /></div>
                     <div>Create New Project</div>
