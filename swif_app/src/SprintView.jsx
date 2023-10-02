@@ -24,6 +24,8 @@ const SprintView = () => {
                 <div><MdDirectionsRun size={80} /></div>
                 <div>{sprintName}</div>
             </button>
+            &nbsp;
+            &nbsp;
         
         </>
     }
@@ -79,6 +81,7 @@ const SprintView = () => {
         const closeModal = () => setOpen(false);
         return (
             <div>
+                <br></br>
                 <button type="button" className="button" onClick={() => setOpen(o => !o)} >
                     <div><MdAddBox size={36} /></div>
                     <div>Create New Sprint</div>
@@ -102,7 +105,7 @@ const SprintView = () => {
         <h1>Sprint View</h1>
         
         {(sprints.length > 0) ? "" : <h4>You have no sprints! Click the button below to add one.</h4>}
-        {sprintDisplay}
+        {sprintDisplay} 
         {createSprintPopup()}
     </>);
 };
