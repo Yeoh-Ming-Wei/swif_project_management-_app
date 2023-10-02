@@ -16,11 +16,18 @@
 }
 
 /* background colour and margin*/
+
 body {
+  background-image: url('https://github.com/Helenaaaxx/FIT3163/raw/bf56e2ab1bfb0f4d7501914486f32c05e033f8af/image/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* body {
   background-color: rgb(219, 19, 119);
   margin-left: 30px;
   margin-right: 30px;
-}
+} */
 
 a {
   font-weight: 500;
