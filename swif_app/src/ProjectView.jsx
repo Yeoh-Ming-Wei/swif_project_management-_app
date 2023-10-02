@@ -50,7 +50,10 @@ const ProjectView = () => {
         >
             <div><MdList size={80} /></div>
             <div>Product Backlog</div>
+            
         </button>
+
+    
 
     const sprintViewButton =   
     <button 
@@ -61,8 +64,6 @@ const ProjectView = () => {
         <div><MdDirectionsRun size={80} /></div>
         <div>Sprint View</div>
     </button>
-
-
 
     const deleteProjectButton =
         <button 
@@ -80,7 +81,11 @@ const ProjectView = () => {
             <h2>Project Name: {project.activeProject}</h2>
             <div>
                 {backlogButton}
+                &nbsp;
+                &nbsp;
                 {sprintViewButton}
+                &nbsp;
+                &nbsp;
                 {deleteProjectButton}
             </div>
         </>
