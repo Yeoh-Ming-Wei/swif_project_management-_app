@@ -29,10 +29,7 @@ const ProjectView = () => {
         // projects array with project removed
         const newProjects = project.projects.filter(project_ => {
             console.log(project_, project_.id, project_);
-            if (project_.id != project.activeProject)
-                return true;
-            else 
-                return false;
+            return project_.id != project.activeProject;
         })
         setProject({
             ...project,
