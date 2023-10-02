@@ -30,6 +30,7 @@ function App() {
             >
               -
             </button>
+            &nbsp;
             <button 
               type="button" 
               className="button" 
