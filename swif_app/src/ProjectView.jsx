@@ -34,7 +34,8 @@ const ProjectView = () => {
         setProject({
             ...project,
             projects: newProjects,
-            activeProject: null
+            activeProject: null,
+            activeSprint: null
         });
         setTimeout(() => {         // delay navigation very slightly, to allow code above to take effect (hacky solution)
             navigate("/projects"); // return to projects view

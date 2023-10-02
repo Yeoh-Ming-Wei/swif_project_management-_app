@@ -25,8 +25,8 @@ const ProductBacklog = () => {
     const [filter, setFilter] = useState([]);
     const [draggedTask, setDraggedTask] = useState(null);
 
-    const activeSprintName = JSON.parse(localStorage.getItem("activeSprint"));
-    const sprints = JSON.parse(localStorage.getItem("sprints"));
+    const activeSprintName = p.activeSprint;
+    const sprints = activeP.sprints
     const activeSprint = sprints.find(
         sprint => {
             console.log("checking", sprint);
@@ -45,7 +45,7 @@ const ProductBacklog = () => {
         // Save the changes to localStorage whenever it changes
         console.log("updating sprints to local storage", newSprints);
         localStorage.setItem("sprints", JSON.stringify(newSprints));
-    }, [backlogTasks]);
+    }, [backlogTasks]);         
 
     const taskTypeSelection = ["User Story", "Bug"];
     const prioritySelection = ["Low", "Medium", "Important", "Urgent"];

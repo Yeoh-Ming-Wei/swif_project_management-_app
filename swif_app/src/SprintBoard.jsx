@@ -9,13 +9,17 @@ import ProductBacklog from './ProductBacklog';
 
 const SprintBoard = () => {
     const navigate = useNavigate();
+
+    const p = JSON.parse(localStorage.getItem("projects"))
+    const activeP = p.projects.filter(project => project.id == p.activeProject)[0]
     
-    const activeSprintName = JSON.parse(localStorage.getItem("activeSprint"));
-    const sprints = JSON.parse(localStorage.getItem("sprints"));
+    const activeSprintName = p.activeSprint;
+    const sprints = activeP.sprints;
     const activeSprint = sprints.find(
         sprint => {
             console.log("checking", sprint);
-            return sprint.id === activeSprintName;
+            console.log("activeSprintname " + activeSprintName)
+            return sprint.id == activeSprintName;
         }
     );
     const [backlogTasks, setBacklogTasks] = useState(activeSprint.sprintBacklog || []);

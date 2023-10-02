@@ -1,23 +1,41 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 const SprintView = () => {
-    const [sprints, setSprints] = useState(JSON.parse(localStorage.getItem("sprints")) || []);
+
+    const p = JSON.parse(localStorage.getItem("projects"))
+    const activeP = p.projects.filter(project => project.id == p.activeProject)[0]
+
+    const restoreSprint = () => {
+        console.log("Restoring Sprint")
+        console.log(activeP.sprints)
+        return activeP.sprints
+    }
+
+
+    const [sprints, setSprints] = useState(restoreSprint());
     const [sprintName, setSprintName] = useState("");
     const [activeSprint, setActiveSprint] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
         console.log("updating sprints to local storage", sprints);
-        localStorage.setItem("sprints", JSON.stringify(sprints)); // convert to string before storing
+        activeP.sprints = sprints
+        p.projects.map(project => {
+            if (project.id == activeP.id){
+                project = activeP
+            }
+            return project
+        })
+        localStorage.setItem("projects", JSON.stringify(p)); // convert to string before storing
     }, [sprints]);
 
     useEffect(() => {
         console.log("updating active sprint to local storage", activeSprint);
-        localStorage.setItem("activeSprint", JSON.stringify(activeSprint)); // convert to string before storing
+        p.activeSprint = activeSprint ;
+        localStorage.setItem("projects", JSON.stringify(p)); // convert to string before storing
     }, [activeSprint]);
 
     const createSprintElement = (sprintName) => {
