@@ -1,13 +1,14 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import "./App.css";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Projects from "./Projects";
 import ProjectView from "./ProjectView";
 import MissingPage from "./MissingPage";
 import ProductBacklog from './ProductBacklog';
 import SprintView from "./SprintView";
 import Team from './Team';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import SprintBoard from "./SprintBoard";
 
 // useful reference: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
 function App() {
@@ -50,6 +51,7 @@ function App() {
           <Route path="view" element={<ProjectView />} />
           <Route path="product-backlog" element={<ProductBacklog />} />
           <Route path="sprints" element={<SprintView />} />
+          <Route path="sprint_board" element={<SprintBoard />} />
           <Route path="team" element={<Team />} />
           <Route path="*" element={<MissingPage />} />
       </Routes>
