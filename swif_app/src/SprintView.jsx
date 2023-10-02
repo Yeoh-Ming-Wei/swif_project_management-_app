@@ -1,22 +1,31 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
 const SprintView = () => {
     const [sprints, setSprints] = useState(JSON.parse(localStorage.getItem("sprints")) || []);
     const [sprintName, setSprintName] = useState("");
+    const [activeSprint, setActiveSprint] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("updating sprints to local storage", sprints);
         localStorage.setItem("sprints", JSON.stringify(sprints)); // convert to string before storing
     }, [sprints]);
 
+    useEffect(() => {
+        console.log("updating active sprint to local storage", activeSprint);
+        localStorage.setItem("activeSprint", JSON.stringify(activeSprint)); // convert to string before storing
+    }, [activeSprint]);
+
     const createSprintElement = (sprintName) => {
         return <>
             <button 
                 type="button" 
                 className="button" 
-                onClick={() => navigate("/sprints")}
+                onClick={() => navigate("/sprint_board")}
+                onMouseEnter={() => setActiveSprint(sprintName)}
             >
                 <div><MdDirectionsRun size={80} /></div>
                 <div>{sprintName}</div>
@@ -48,6 +57,10 @@ const SprintView = () => {
 
         const newSprint = {
             id: sprintName,
+            sprintBacklog: [],
+            startDate: null,
+            finishDate: null,
+            started: false,
         };
 
         setSprints(
@@ -95,7 +108,7 @@ const SprintView = () => {
 
     return (<>
         {/* {sprints} */}
-        {sprintName}
+        {/* {sprintName} */}
         <h1>Sprint View</h1>
         
         {(sprints.length > 0) ? "" : <h4>You have no sprints! Click the button below to add one.</h4>}
