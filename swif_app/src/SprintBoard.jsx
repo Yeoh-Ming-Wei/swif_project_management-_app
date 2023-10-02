@@ -221,8 +221,8 @@ const SprintBoard = () => {
 
             if (sprintStarted !== false) {
                 console.log("attempting to move task to sprint backlog when sprint is already started!", draggedTask);
-                
-                return
+                alert("You cannot move tasks into a sprint once it has already started!");
+                return;
             }
             // const taskStage = draggedTask.taskStage  
             console.log("moving task to sprint backlog", newTaskStage, draggedTask);
