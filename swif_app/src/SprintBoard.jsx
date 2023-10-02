@@ -73,6 +73,14 @@ const SprintBoard = () => {
 		const taskBeingEdit = (taskBeingEditedIndex != -1) ? backlogTasks[taskBeingEditedIndex] : {};
     
         const saveEditedTaskData = () => {
+            const calculateElapsedTime = (start, end) => {
+                const startDate = new Date(start);
+                const endDate = new Date(end);
+                const elapsedTimeHours = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 3600));
+                console.log('task elapsed time:',startDate, endDate, elapsedTimeHours);
+                return elapsedTimeHours;
+
+            }
             const newTask = {
 				// id: taskID,
                 id: parseInt(taskBeingEdit.id),
@@ -84,6 +92,9 @@ const SprintBoard = () => {
                 storyPoints: elementValue("Story Points"),
                 member: elementValue("Assign To"),
                 taskStage: elementValue("Task Stage"),
+                startDate: elementValue("taskStartTime"),
+                endDate: elementValue("taskEndTime"),
+                elapsedTimeHours: calculateElapsedTime(elementValue("taskStartTime"), elementValue("taskEndTime"))
             };
     
             console.log('saving edit to task',newTask);
@@ -108,7 +119,9 @@ const SprintBoard = () => {
                     <InputDropdown id = "editStoryPoints" name="Story Points" selection={storyPointSelection} value={taskBeingEdit.storyPoints}/>
                     <InputDropdown id = "editAssignTo" name="Assign To" selection={userAssignmentSelection} value={taskBeingEdit.member}/>
                     <InputDropdown id = "editTaskStage" name="Task Stage" selection={taskStageSelection} value={taskBeingEdit.taskStage}/>
-
+                    Task Start Time <input id = "taskStartTime" type = "datetime-local" defaultValue={taskBeingEdit.startDate}/><br/>
+                    Task End Time <input id = "taskEndTime" type = "datetime-local" defaultValue={taskBeingEdit.endDate}/><br/>
+                    Elapsed Time (Hours): {taskBeingEdit.elapsedTimeHours}<br/>
                     <button type="button" className="btn btn-primary" onClick={() => saveEditedTaskData()}>Save</button>
                 </div>
             </div>
@@ -284,11 +297,22 @@ const SprintBoard = () => {
         }
         return (
         <div>
-            <button type="button" className="button" onClick={() => setSprintStarted(true)} >
+            <div>
+                <h4>
+                    Start Date: {new Date (activeSprint.startDate).toUTCString()}
+                    <br/>
+                    End Date: {new Date (activeSprint.endDate).toUTCString()}
+                </h4>
+            </div>
+            <button type = "button" className="button" onClick = {() => setSprintStarted(true)} >
                 <div><MdPlayArrow size={32} /></div>
                 <div>Start Sprint</div>
             </button>
-            <button type="button" className="button" onClick={finishSprint} >
+            {/* <form>
+                <input type = "datetime-local" id = "sprintStartTime"></input>
+            </form> */}
+            
+            <button type = "button" className ="button" onClick = {finishSprint} >
                 <div><MdCheck size={32} /></div>
                 <div>Finish Sprint</div>
             </button>

@@ -6,7 +6,9 @@ import Popup from 'reactjs-popup';
 const SprintView = () => {
     const [sprints, setSprints] = useState(JSON.parse(localStorage.getItem("sprints")) || []);
     const [sprintName, setSprintName] = useState("");
-    const [activeSprint, setActiveSprint] = useState("");
+    const [sprintStartDate, setSprintStartDate] = useState("");
+    const [sprintEndDate, setSprintEndDate] = useState("");
+    const [activeSprintName, setActiveSprint] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,10 +16,28 @@ const SprintView = () => {
         localStorage.setItem("sprints", JSON.stringify(sprints)); // convert to string before storing
     }, [sprints]);
 
+    const activeSprint = sprints.find(
+        sprint => {
+            console.log("checking", sprint);
+            return sprint.id === activeSprintName;
+        }
+    );
+
+    // useEffect(() => {
+    //     if (activeSprint === undefined) {return}
+    //     let newSprints = sprints;
+    //     const activeSprintIndex = newSprints.indexOf(activeSprint);
+    //     newSprints[activeSprintIndex].startDate = sprintStartDate;
+
+    //     // Save the changes to localStorage whenever it changes
+    //     console.log("updating sprints to local storage", newSprints);
+    //     localStorage.setItem("sprints", JSON.stringify(newSprints));
+    // }, [sprintStartDate]);
+
     useEffect(() => {
-        console.log("updating active sprint to local storage", activeSprint);
-        localStorage.setItem("activeSprint", JSON.stringify(activeSprint)); // convert to string before storing
-    }, [activeSprint]);
+        console.log("updating active sprint to local storage", activeSprintName);
+        localStorage.setItem("activeSprint", JSON.stringify(activeSprintName)); // convert to string before storing
+    }, [activeSprintName]);
 
     const createSprintElement = (sprintName) => {
         return <>
@@ -58,8 +78,8 @@ const SprintView = () => {
         const newSprint = {
             id: sprintName,
             sprintBacklog: [],
-            startDate: null,
-            finishDate: null,
+            startDate: sprintStartDate,
+            endDate: sprintEndDate,
             started: false,
         };
 
@@ -71,14 +91,29 @@ const SprintView = () => {
     const addSprintForm = () => {
         return (
             <form onSubmit={handleSubmit}>
-                <label>Enter new sprint name:
-                    <input 
+                <label>
+                    Enter new sprint name: <input 
                     type="text" 
                     value={sprintName}
                     onChange={(e) => setSprintName(e.target.value)}
                     />
                 </label>
-                <input type="submit" value="Add"/>
+                <br />
+                <label>
+                    Enter sprint start date: <input
+                    type = "datetime-local"
+                    id = "sprintStartTime"
+                    onChange={(e) => setSprintStartDate(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Enter sprint end date: <input
+                    type = "datetime-local"
+                    id = "sprintEndTime"
+                    onChange={(e) => setSprintEndDate(e.target.value)}/>
+                </label>
+                <br />
+                <input type="submit" value="Add Sprint"/>
             </form>
         )
     }

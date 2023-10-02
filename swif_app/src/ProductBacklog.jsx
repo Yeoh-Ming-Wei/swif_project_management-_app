@@ -94,21 +94,18 @@ const ProductBacklog = () => {
         const createTaskForm =
         <div className="create-task-form">
             <div className="row">
-            <div className="col"></div>
-
-            <div className="create-task-items">
-			<InputTextArea id = "editName" name="Name" rows="1"/>
-				{/* default to user story */}
-                <InputDropdown id = "editTaskType" name="Task Type" selection={taskTypeSelection} value={0}/>
-                <InputTextArea id = "editDesc" name="Description"/>
-                <InputDropdown id = "editPriority" name="Priority" selection={prioritySelection}/>
-                <InputDropdown id = "editTag" name="User Story Tag" selection={storyTagSelection}/>
-                <InputDropdown id = "editStoryPoints" name="Story Points" selection={storyPointSelection}/>
-                <InputDropdown id = "editAssignTo" name="Assign To" selection={userAssignmentSelection}/>
-                <InputDropdown id = "editTaskStage" name="Task Stage" selection={taskStageSelection}/>
-                <button type="button" className="btn btn-primary" onClick={() => saveTaskData()}>Save</button>
-            </div>
-            <div className="col"></div>
+                <div className="create-task-items">
+                <InputTextArea id = "editName" name="Name" rows="1"/>
+                    {/* default to user story */}
+                    <InputDropdown id = "editTaskType" name="Task Type" selection={taskTypeSelection} value={0}/>
+                    <InputTextArea id = "editDesc" name="Description"/>
+                    <InputDropdown id = "editPriority" name="Priority" selection={prioritySelection}/>
+                    <InputDropdown id = "editTag" name="User Story Tag" selection={storyTagSelection}/>
+                    <InputDropdown id = "editStoryPoints" name="Story Points" selection={storyPointSelection}/>
+                    <InputDropdown id = "editAssignTo" name="Assign To" selection={userAssignmentSelection}/>
+                    <InputDropdown id = "editTaskStage" name="Task Stage" selection={taskStageSelection}/>
+                    <button type="button" className="btn btn-primary" onClick={() => saveTaskData()}>Save</button>
+                </div>
             </div>
         </div>
 
