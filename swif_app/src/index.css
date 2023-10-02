@@ -16,13 +16,26 @@
 }
 
 /* background colour and margin*/
-
+/* black theme*/
+/* background image sources: 
+   https://pin.it/2B8m7b2
+   https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.pngwing.com%2Fen%2Ffree-png-kdxxr%3Ffbclid%3DIwAR1kS0D2S0u4dPkE4SmsrJjZj4HClhLnq6XYy8r7fTkuFoXUGDk_jN1yO8Y&h=AT3_QIIW4D4FqnVLCDSfHXJ57MCSxUT7zzx6i4qhKgf5dIAZZmA8Vh6nrxSwtOnonPdt90Z4YAeYVYT1B7U9wLR8JFgyF0E83u2YZxqI34k1uiKPqeH_G-qHs_eQK5DQUPkIP55PVqVJD_xH1GJv0w
+   
+*/
 body {
-  background-image: url('https://github.com/Helenaaaxx/FIT3163/raw/bf56e2ab1bfb0f4d7501914486f32c05e033f8af/image/background.jpg');
-  background-size: cover;
+  background-image: url('https://github.com/Helenaaaxx/FIT3163/raw/2b8540dc3d1f44c9f6f4d2ecd55ca90ee0862962/image/final_swif_app_background.jpg');
+  background-size: 100% 100%;
   background-repeat: no-repeat;
-  color: rgb(250, 248, 245);
+  color: white; 
 }
+
+/* pink theme*/
+/* body {
+  background-image: url('https://github.com/Helenaaaxx/FIT3163/raw/aa0a9bbfb18253c7ab603032cb65eff2855e2253/image/swif_app_background.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  color: white; 
+} */
 
 /* body {
   background-color: rgb(219, 19, 119);
