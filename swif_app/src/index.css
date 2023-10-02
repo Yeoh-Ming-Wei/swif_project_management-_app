@@ -15,6 +15,13 @@
   -webkit-text-size-adjust: 100%;
 }
 
+/* background colour and margin*/
+body {
+  background-color: rgb(219, 19, 119);
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
