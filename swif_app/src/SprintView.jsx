@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 const SprintView = () => {
@@ -11,12 +12,14 @@ const SprintView = () => {
         localStorage.setItem("sprints", JSON.stringify(sprints)); // convert to string before storing
     }, [sprints]);
 
+    const navigate = useNavigate();
+
     const createSprintElement = (sprintName) => {
         return <>
             <button 
                 type="button" 
                 className="button" 
-                onClick={() => navigate("/sprints")}
+                onClick={() => navigate("/sprintRun")}
             >
                 <div><MdDirectionsRun size={80} /></div>
                 <div>{sprintName}</div>

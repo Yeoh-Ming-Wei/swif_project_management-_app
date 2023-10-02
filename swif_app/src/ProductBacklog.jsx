@@ -5,16 +5,21 @@ import InputTextArea from "./components/InputTextArea";
 import { MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
-// let taskID = 0;
-
 const ProductBacklog = () => {
     const defaultName = 'Product Backlog';
     const storedName = localStorage.getItem('productName');
+    const p = JSON.parse(localStorage.getItem("projects"))
+    const activeP = p.projects.filter(project => project.id == p.activeProject)[0]
+
+    const restoreTask = () => {
+        console.log("Restoring Task")
+        return activeP.tasks
+    }
     
     const [productName, setProductName] = useState(storedName || defaultName);
     const [editingName, setEditingName] = useState(false);
 	const [taskId, setTaskId] = useState(JSON.parse(localStorage.getItem("taskId")) || 0);
-    const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || []);
+    const [tasks, setTasks] = useState(restoreTask());
 	const [editing, setEditing] = useState(-1); // -1 represents false/not editing
     const [sort, setSort] = useState(0);
     const [filter, setFilter] = useState([]);
@@ -39,12 +44,16 @@ const ProductBacklog = () => {
 
     useEffect(() => {
         console.log("updating tasks to local storage", tasks);
-        localStorage.setItem("tasks", JSON.stringify(tasks)); // convert to string before storing
+        activeP.tasks = tasks
+        p.projects.map(project => {
+            if (project.id == activeP.id){
+                project = activeP
+            }
+            return project
+        })
+        localStorage.setItem("projects", JSON.stringify(p)); // convert to string before storing
+        console.log(p)
     }, [tasks]);
-
-    const taskElements = tasks.map(
-        (task) => <div key="">{JSON.stringify(task)}</div>  
-    )
 
     const CreateTask = () => {
         const elementValue = (str) => (document.getElementById(str).value);

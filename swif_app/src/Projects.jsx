@@ -49,7 +49,7 @@ const Projects = () => {
 
     // runs when projects are hovered over
     const updateActiveProject = (projectName) => {
-        // alert("project opened: " + projectName);
+
         console.log("project opened: " + projectName);
         // set active project
         setProject({
