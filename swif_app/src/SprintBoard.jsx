@@ -11,10 +11,13 @@ const SprintBoard = () => {
     const navigate = useNavigate();
     
     const activeSprintName = JSON.parse(localStorage.getItem("activeSprint"));
-    const sprints = JSON.parse(localStorage.getItem("sprints"));
+    const projects = JSON.parse(localStorage.getItem("projects"));
+    const activeProjectId = projects.activeProject;
+    const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
+    const sprints = activeProject.sprints;
     const activeSprint = sprints.find(
         sprint => {
-            console.log("checking", sprint);
+            // console.log("checking", sprint);
             return sprint.id === activeSprintName;
         }
     );
@@ -39,8 +42,21 @@ const SprintBoard = () => {
         newSprints[activeSprintIndex].sprintBacklog = backlogTasks;
 
         // Save the changes to localStorage whenever it changes
-        console.log("updating sprints to local storage", newSprints);
-        localStorage.setItem("sprints", JSON.stringify(newSprints));
+        // console.log("updating sprints to local storage", newSprints);
+        // localStorage.setItem("sprints", JSON.stringify(newSprints));
+
+        let newProjectsList = projects.projects;
+        newProjectsList = newProjectsList.filter(
+            (project) => { return project.id != activeProjectId; }
+        )
+        const newProject = {...activeProject,
+            sprints: newSprints,
+        }
+        newProjectsList = newProjectsList.concat(newProject);
+        const newProjects = {...projects,
+            projects: newProjectsList,
+        }
+        localStorage.setItem("projects", JSON.stringify(newProjects));
     }, [backlogTasks]);
 
     useEffect(() => {
@@ -59,7 +75,20 @@ const SprintBoard = () => {
         newSprints[activeSprintIndex].started = sprintStarted;
 
         console.log("updating sprint start status to local storage", sprintStarted);
-        localStorage.setItem("sprints", JSON.stringify(newSprints)); // convert to string before storing
+        // localStorage.setItem("sprints", JSON.stringify(newSprints)); // convert to string before storing
+        
+        let newProjectsList = projects.projects;
+        newProjectsList = newProjectsList.filter(
+            (project) => { return project.id != activeProjectId; }
+        )
+        const newProject = {...activeProject,
+            sprints: newSprints,
+        }
+        newProjectsList = newProjectsList.concat(newProject);
+        const newProjects = {...projects,
+            projects: newProjectsList,
+        }
+        localStorage.setItem("projects", JSON.stringify(newProjects));
     }, [sprintStarted]);
 
     const EditTask = () => {
@@ -76,7 +105,7 @@ const SprintBoard = () => {
             const calculateElapsedTime = (start, end) => {
                 const startDate = new Date(start);
                 const endDate = new Date(end);
-                const elapsedTimeHours = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 3600));
+                const elapsedTimeHours = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 3600));
                 console.log('task elapsed time:',startDate, endDate, elapsedTimeHours);
                 return elapsedTimeHours;
 
@@ -146,8 +175,17 @@ const SprintBoard = () => {
 
     const dragTask = (event, task) => {
         // event.preventDefault();
+        console.log('PB dragging');
+        const currentDragged = JSON.parse(localStorage.getItem("draggedTask"));
+        console.log(currentDragged);
         setDraggedTask(task);
     }
+
+    const dragEnd = (event) => {
+        console.log('**SB drag END');
+        setDraggedTask(null);
+    }
+
 
     const createCardElement = (t) => {
         const Card = ({id, title, taskStage, priority, storyPoints, editFunction, deleteFunction, onDragFunction}) => {
@@ -168,11 +206,9 @@ const SprintBoard = () => {
             }
 
             return (
-                <div id={id} className={"card"} draggable="true" onDrag = {onDragFunction} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: bgColours(priority), color: "black", borderRadius: "16px"}}>
-
+                <div id={id} className={"card"} draggable="true" onDrag = {onDragFunction} onDragEnd = {dragEnd} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: bgColours(priority), color: "black", borderRadius: "16px"}}>
                     <div className="card-body" style={{display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
                         <h3 className="card-title" align="left">{title}</h3>
-                        
                         <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
                             <p className="card-text" align="left">{taskStage}</p>
                             <h3 className="card-text" align="right">{storyPoints}</h3>
@@ -193,7 +229,6 @@ const SprintBoard = () => {
             key = {t.id}
             editFunction ={() => setEditing(t.id)}
             deleteFunction = {() => {
-                // setTasks(tasks.filter(tfilter => tfilter.id != t.id))
                 setBacklogTasks(backlogTasks.filter(tfilter => tfilter.id != t.id))
             }}
             onDragFunction = {(event) => {dragTask(event, t)}}
@@ -209,6 +244,7 @@ const SprintBoard = () => {
         const moveToSprintBacklog = (e, newTaskStage) => {
             // console.log(e);
             const draggedTask = JSON.parse(localStorage.getItem("draggedTask"));
+            setDraggedTask(null);
             console.log("dropped", draggedTask);
             if (backlogTasks.filter(
                 (task) => {
@@ -237,7 +273,7 @@ const SprintBoard = () => {
                 alert("You cannot move tasks into a sprint once it has already started!");
                 return;
             }
-            // const taskStage = draggedTask.taskStage  
+
             console.log("moving task to sprint backlog", newTaskStage, draggedTask);
             const newTask = {...draggedTask,
                 taskStage: newTaskStage
@@ -248,7 +284,7 @@ const SprintBoard = () => {
                     return (task.id != newTask.id);
                 }
             ))
-            
+            // setDraggedTask(null);
             window.location.reload() // needed to update product backlog component
         };
 
@@ -290,7 +326,20 @@ const SprintBoard = () => {
                     return (sprint.id != activeSprint.id)
                 }
             )
-            localStorage.setItem("sprints", JSON.stringify(newSprints));
+            // localStorage.setItem("sprints", JSON.stringify(newSprints));
+            
+            let newProjectsList = projects.projects;
+            newProjectsList = newProjectsList.filter(
+                (project) => { return project.id != activeProjectId; }
+            )
+            const newProject = {...activeProject,
+                sprints: newSprints,
+            }
+            newProjectsList = newProjectsList.concat(newProject);
+            const newProjects = {...projects,
+                projects: newProjectsList,
+            }
+            localStorage.setItem("projects", JSON.stringify(newProjects));
             setTimeout(() => {         // delay navigation very slightly, to allow code above to take effect (hacky solution)
                 navigate("/sprints"); // return to sprints view
             }, 1);

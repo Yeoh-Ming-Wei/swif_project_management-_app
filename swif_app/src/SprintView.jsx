@@ -4,7 +4,10 @@ import { MdAddBox, MdDirectionsRun } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
 const SprintView = () => {
-    const [sprints, setSprints] = useState(JSON.parse(localStorage.getItem("sprints")) || []);
+    const projects = JSON.parse(localStorage.getItem("projects"));
+    const activeProjectId = projects.activeProject;
+    const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
+    const [sprints, setSprints] = useState(activeProject.sprints);
     const [sprintName, setSprintName] = useState("");
     const [sprintStartDate, setSprintStartDate] = useState("");
     const [sprintEndDate, setSprintEndDate] = useState("");
@@ -13,26 +16,27 @@ const SprintView = () => {
 
     useEffect(() => {
         console.log("updating sprints to local storage", sprints);
-        localStorage.setItem("sprints", JSON.stringify(sprints)); // convert to string before storing
+        let newProjectsList = projects.projects;
+        newProjectsList = newProjectsList.filter(
+            (project) => { return project.id != activeProjectId; }
+        )
+        const newProject = {...activeProject,
+            sprints: sprints,
+        }
+        newProjectsList = newProjectsList.concat(newProject);
+        const newProjects = {...projects,
+            projects: newProjectsList,
+        }
+        localStorage.setItem("projects", JSON.stringify(newProjects)); // convert to string before storing
     }, [sprints]);
 
-    const activeSprint = sprints.find(
-        sprint => {
-            console.log("checking", sprint);
-            return sprint.id === activeSprintName;
-        }
-    );
-
-    // useEffect(() => {
-    //     if (activeSprint === undefined) {return}
-    //     let newSprints = sprints;
-    //     const activeSprintIndex = newSprints.indexOf(activeSprint);
-    //     newSprints[activeSprintIndex].startDate = sprintStartDate;
-
-    //     // Save the changes to localStorage whenever it changes
-    //     console.log("updating sprints to local storage", newSprints);
-    //     localStorage.setItem("sprints", JSON.stringify(newSprints));
-    // }, [sprintStartDate]);
+    console.log('test1', sprints)
+    // const activeSprint = sprints.find(
+    //     sprint => {
+    //         console.log("checking", sprint);
+    //         return sprint.id === activeSprintName;
+    //     }
+    // );
 
     useEffect(() => {
         console.log("updating active sprint to local storage", activeSprintName);
@@ -49,8 +53,7 @@ const SprintView = () => {
             >
                 <div><MdDirectionsRun size={80} /></div>
                 <div>{sprintName}</div>
-            </button>
-        
+            </button> 
         </>
     }
 
@@ -138,7 +141,7 @@ const SprintView = () => {
         );
     };
 
-
+    console.log('test', sprints)
     const sprintDisplay = sprints.map((sprint) => createSprintElement(sprint.id));
 
     return (<>

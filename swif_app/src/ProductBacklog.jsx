@@ -19,7 +19,10 @@ const ProductBacklog = () => {
     const [draggedTask, setDraggedTask] = useState(null);
 
     const activeSprintName = JSON.parse(localStorage.getItem("activeSprint"));
-    const sprints = JSON.parse(localStorage.getItem("sprints"));
+    const projects = JSON.parse(localStorage.getItem("projects"));
+    const activeProjectId = projects.activeProject;
+    const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
+    const sprints = activeProject.sprints;
     const activeSprint = sprints.find(
         sprint => {
             console.log("checking", sprint);
@@ -37,7 +40,19 @@ const ProductBacklog = () => {
 
         // Save the changes to localStorage whenever it changes
         console.log("updating sprints to local storage", newSprints);
-        localStorage.setItem("sprints", JSON.stringify(newSprints));
+        // localStorage.setItem("sprints", JSON.stringify(newSprints));
+        let newProjectsList = projects.projects;
+        newProjectsList = newProjectsList.filter(
+            (project) => { return project.id != activeProjectId; }
+        )
+        const newProject = {...activeProject,
+            sprints: newSprints,
+        }
+        newProjectsList = newProjectsList.concat(newProject);
+        const newProjects = {...projects,
+            projects: newProjectsList,
+        }
+        localStorage.setItem("projects", JSON.stringify(newProjects));
     }, [backlogTasks]);
 
     const taskTypeSelection = ["User Story", "Bug"];
@@ -209,7 +224,15 @@ const ProductBacklog = () => {
 
     const dragTask = (event, task) => {
         // event.preventDefault();
+        console.log('PB dragging');
+        const currentDragged = JSON.parse(localStorage.getItem("draggedTask"));
+        console.log(currentDragged);
         setDraggedTask(task);
+    }
+
+    const dragEnd = (event) => {
+        console.log('PB drag END');
+        setDraggedTask(null);
     }
 
     const createCardElement = (t) => {
@@ -231,7 +254,7 @@ const ProductBacklog = () => {
             }
 
             return (
-                <div id={id} className={"card"} draggable="true" onDrag = {onDragFunction} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: bgColours(priority), color: "black", borderRadius: "16px"}}>
+                <div id={id} className={"card"} draggable="true" onDrag = {onDragFunction} onDragEnd = {dragEnd} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: bgColours(priority), color: "black", borderRadius: "16px"}}>
 
                     <div className="card-body" style={{display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
                         <h3 className="card-title" align="left">{title}</h3>
@@ -263,6 +286,7 @@ const ProductBacklog = () => {
     const moveToProductBacklog = (e) => {
         // console.log(e);
         const draggedTask = JSON.parse(localStorage.getItem("draggedTask"));
+        setDraggedTask(null);
         console.log("dropped", draggedTask);
         if (tasks.filter(
             (task) => {
@@ -287,6 +311,7 @@ const ProductBacklog = () => {
                 return (task.id != draggedTask.id);
             }
         ))
+        // setDraggedTask(null);
         window.location.reload() // needed to update sprint backlog component
     };
 
