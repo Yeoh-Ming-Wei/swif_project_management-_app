@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { MdAddBox, MdPlayArrow, MdCheck } from "react-icons/md";
+import { MdStackedLineChart, MdPlayArrow, MdCheck } from "react-icons/md";
 import InputDropdown from "./components/InputDropdown";
 import InputTextArea from "./components/InputTextArea";
 import Popup from 'reactjs-popup';
 
 import ProductBacklog from './ProductBacklog';
+import BurndownChart from './BurndownChart';
 
 const SprintBoard = () => {
     const navigate = useNavigate();
@@ -150,7 +151,7 @@ const SprintBoard = () => {
                     <InputDropdown id = "editTaskStage" name="Task Stage" selection={taskStageSelection} value={taskBeingEdit.taskStage}/>
                     Task Start Time <input id = "taskStartTime" type = "datetime-local" defaultValue={taskBeingEdit.startDate}/><br/>
                     Task End Time <input id = "taskEndTime" type = "datetime-local" defaultValue={taskBeingEdit.endDate}/><br/>
-                    Elapsed Time (Hours): {taskBeingEdit.elapsedTimeHours}<br/>
+                    Accumulated Time (Hours): {taskBeingEdit.elapsedTimeHours}<br/>
                     <button type="button" className="btn btn-primary" onClick={() => saveEditedTaskData()}>Save</button>
                 </div>
             </div>
@@ -292,23 +293,26 @@ const SprintBoard = () => {
             <h2>Sprint Backlog</h2>
             <div onDragOver={onDragOver}>
                 {backlogTasks.length != 0 ? <></> : <h3>No tasks in the sprint backlog! Drag and drop a task from the Product Backlog here!</h3>}
-                <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", }}>
-                    <div onDrop={(event) => {moveToSprintBacklog(event, "0")}}>
+                <div style={{display:"flex", flexDirection:"row", justifyContent:"center", }}>
+                    <div width={"400px"} onDrop={(event) => {moveToSprintBacklog(event, "0")}} style={{border:"2px solid grey"}}>
+                        <div style={{width:"300px"}}/>
                         <h2>Not started</h2>
                         {backlogTasks.filter((task) => {
                             return (task.taskStage !== "2" && task.taskStage !== "3")}
                         ).map(t => createCardElement(t))}
                     </div>
-                    <div style={{borderLeft:"4px solid grey", height:"500px"}}>
-                    </div>
-                    <div onDrop={(event) => {moveToSprintBacklog(event, "2")}}>
+                    {/* <div style={{borderLeft:"4px solid grey", height:"500px"}}>
+                    </div> */}
+                    <div onDrop={(event) => {moveToSprintBacklog(event, "2")}} style={{border:"2px solid grey"}}>
+                        <div style={{width:"300px"}}/>
                         <h2>In Progress</h2>
                         {backlogTasks.filter((task) => {
                             return task.taskStage == "2"
                         }).map(t => createCardElement(t))}
                     </div>
-                    <div style={{borderLeft:"4px solid grey", height:"500px"}}></div>
-                    <div onDrop={(event) => {moveToSprintBacklog(event, "3")}}>
+                    {/* <div style={{borderLeft:"4px solid grey", height:"500px"}}></div> */}
+                    <div onDrop={(event) => {moveToSprintBacklog(event, "3")}} style={{border:"2px solid grey"}}>
+                        <div style={{width:"300px"}}/>
                         <h2>Completed</h2>
                         {backlogTasks.filter((task) => {
                             return task.taskStage == "3"
@@ -365,6 +369,11 @@ const SprintBoard = () => {
                 <div><MdCheck size={32} /></div>
                 <div>Finish Sprint</div>
             </button>
+
+            <button type = "button" className ="button" onClick = {() => {navigate("/burndown_chart")}} >
+                <div><MdStackedLineChart size={32} /></div>
+                <div>View Burndown Chart</div>
+            </button>
         </div>
         )
     }
@@ -373,6 +382,7 @@ const SprintBoard = () => {
         {/* {backlogTasks} */}
         <h1>{activeSprintName}</h1>
         {sprintControls()}
+        {/* <BurndownChart /> */}
         {sprintBacklog()}
         <EditTask />
         <ProductBacklog /> 

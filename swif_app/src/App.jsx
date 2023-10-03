@@ -9,6 +9,7 @@ import ProductBacklog from './ProductBacklog';
 import SprintView from "./SprintView";
 import Team from './Team';
 import SprintBoard from "./SprintBoard";
+import BurndownChart from "./BurndownChart";
 
 // useful reference: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
 function App() {
@@ -52,6 +53,7 @@ function App() {
           <Route path="product-backlog" element={<ProductBacklog />} />
           <Route path="sprints" element={<SprintView />} />
           <Route path="sprint_board" element={<SprintBoard />} />
+          <Route path="burndown_chart" element={<BurndownChart />} />
           <Route path="team" element={<Team />} />
           <Route path="*" element={<MissingPage />} />
       </Routes>
