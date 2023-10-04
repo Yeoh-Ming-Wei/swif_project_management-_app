@@ -31,6 +31,6 @@ Google Drive (Documentation):
 https://drive.google.com/drive/folders/1hvpM8HuQ46lOkSx92gGCJb-3O_TS36kA?usp=sharing
 
 Jira (Project Management):
-https://id.atlassian.com/invite/p/jira-software?id=eviw0im7T5G_cnuwIBWvsw
-(link expires on 9/10/23)
+https://id.atlassian.com/invite/p/jira-software?id=jqo10buJQYKYbMyIIE24rQ
+(link expires on 4/11/23)
 
