@@ -139,13 +139,8 @@ const Projects = () => {
     return (
         <>
             <h1>Projects</h1>
-            {/* {JSON.stringify(project)} */}
             {projectDisplay}
             {createProjectPopup()}
-{/*             
-            <button onClick={() => setState({ ...state, testCount: state.testCount + 1 })}>update state</button> */}
-            {/* <button onClick={() => setProject(INITIAL_PROJECTS)}>reset</button>
-            <button onClick={() => localStorage.clear()}>clear</button> */}
     
             
         </>

@@ -217,23 +217,7 @@ const ProductBacklog = () => {
         return editTaskPopup();  
     };
 
-    const onDragOver = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-    };
-
-    const dragTask = (event, task) => {
-        // event.preventDefault();
-        console.log('PB dragging');
-        const currentDragged = JSON.parse(localStorage.getItem("draggedTask"));
-        console.log(currentDragged);
-        setDraggedTask(task);
-    }
-
-    const dragEnd = (event) => {
-        console.log('PB drag END');
-        setDraggedTask(null);
-    }
+    
 
     const createCardElement = (t) => {
         const Card = ({id, title, taskStage, priority, storyPoints, editFunction, deleteFunction, onDragFunction}) => {
@@ -253,23 +237,7 @@ const ProductBacklog = () => {
             }
             }
 
-            return (
-                <div id={id} className={"card"} draggable="true" onDrag = {onDragFunction} onDragEnd = {dragEnd} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: bgColours(priority), color: "black", borderRadius: "16px"}}>
 
-                    <div className="card-body" style={{display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
-                        <h3 className="card-title" align="left">{title}</h3>
-                        
-                        <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-                            <p className="card-text" align="left">{taskStage}</p>
-                            <h3 className="card-text" align="right">{storyPoints}</h3>
-                        </div>
-                        <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
-                            <button onClick={editFunction}>Edit</button>
-                            <button onClick={deleteFunction}>Delete</button>
-                        </div>
-                    </div>
-                </div>
-            )
         }
         return <Card 
             id = {"card" + t.id}
