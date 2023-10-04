@@ -8,6 +8,8 @@ import Popup from 'reactjs-popup';
 import ProductBacklog from './ProductBacklog';
 import BurndownChart from './BurndownChart';
 
+
+
 const SprintBoard = () => {
     const navigate = useNavigate();
     
@@ -30,12 +32,32 @@ const SprintBoard = () => {
 
     const [sprintStarted, setSprintStarted] = useState(activeSprint.started);
 
+    const [sprintBoardName, setSprintBoardName] = useState(activeSprintName);
+    const [isEditingName, setIsEditingName] = useState(false);
+    
+    
+
+
+
     const taskTypeSelection = ["User Story", "Bug"];
     const prioritySelection = ["Low", "Medium", "Important", "Urgent"];
     const storyTagSelection = ["Frontend", "Backend", "API", "Framework", "Testing", "UI", "UX", "Database"];
     const storyPointSelection = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     const userAssignmentSelection = ["Alice", "Ben", "Carol", "Dennis"];
     const taskStageSelection = ["Planning", "Development", "In Progress", "Completed"];
+
+
+    useEffect(() => {
+        const storedName = localStorage.getItem(`sprintBoardName_${activeSprint.id}`);
+        if (storedName) {
+            setSprintBoardName(storedName);
+        } else {
+            setSprintBoardName(activeSprintName);
+        }
+    }, [activeSprint]);
+
+
+
 
     useEffect(() => {
         let newSprints = sprints;
@@ -91,6 +113,24 @@ const SprintBoard = () => {
         }
         localStorage.setItem("projects", JSON.stringify(newProjects));
     }, [sprintStarted]);
+
+
+    const handleNameChange = (event) => {
+        setSprintBoardName(event.target.value);
+    }
+    
+    const handleNameEdit = () => {
+        setIsEditingName(true);
+    }
+    
+    const handleNameSave = () => {
+        // Here, you might want to save to a server or to localStorage.
+        // For simplicity, we're just toggling off the edit mode.
+        setIsEditingName(false);
+    }
+
+
+
 
     const EditTask = () => {
         const elementValue = (str) => (document.getElementById(str).value);
@@ -380,7 +420,22 @@ const SprintBoard = () => {
 
     return (<>
         {/* {backlogTasks} */}
-        <h1>{activeSprintName}</h1>
+        <div>
+    {isEditingName ? (
+        <>
+            <input 
+                type="text" 
+                //value={sprintBoardName} 
+                onChange={handleNameChange}
+                onBlur={handleNameSave} 
+                placeholder="Enter new sprint board name..."
+                autoFocus
+            />
+        </>
+        ) : (
+        <h1 onClick={handleNameEdit}>{sprintBoardName}</h1>
+        )}
+        </div>
         {sprintControls()}
         {/* <BurndownChart /> */}
         {sprintBacklog()}
