@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 const SprintView = () => {
