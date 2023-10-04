@@ -1,32 +1,62 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 const SprintView = () => {
-    const [sprints, setSprints] = useState(JSON.parse(localStorage.getItem("sprints")) || []);
+    const projects = JSON.parse(localStorage.getItem("projects"));
+    const activeProjectId = projects.activeProject;
+    const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
+    const [sprints, setSprints] = useState(activeProject.sprints);
     const [sprintName, setSprintName] = useState("");
+    const [sprintStartDate, setSprintStartDate] = useState("");
+    const [sprintEndDate, setSprintEndDate] = useState("");
+    const [activeSprintName, setActiveSprint] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("updating sprints to local storage", sprints);
-        localStorage.setItem("sprints", JSON.stringify(sprints)); // convert to string before storing
+        let newProjectsList = projects.projects;
+        newProjectsList = newProjectsList.filter(
+            (project) => { return project.id != activeProjectId; }
+        )
+        const newProject = {...activeProject,
+            sprints: sprints,
+        }
+        newProjectsList = newProjectsList.concat(newProject);
+        const newProjects = {...projects,
+            projects: newProjectsList,
+        }
+        localStorage.setItem("projects", JSON.stringify(newProjects)); // convert to string before storing
     }, [sprints]);
 
-    const navigate = useNavigate();
+    console.log('test1', sprints)
+    // const activeSprint = sprints.find(
+    //     sprint => {
+    //         console.log("checking", sprint);
+    //         return sprint.id === activeSprintName;
+    //     }
+    // );
+
+    useEffect(() => {
+        console.log("updating active sprint to local storage", activeSprintName);
+        localStorage.setItem("activeSprint", JSON.stringify(activeSprintName)); // convert to string before storing
+    }, [activeSprintName]);
 
     const createSprintElement = (sprintName) => {
         return <>
             <button 
                 type="button" 
                 className="button" 
-                onClick={() => navigate("/sprintRun")}
+                onClick={() => navigate("/sprint_board")}
+                onMouseEnter={() => setActiveSprint(sprintName)}
             >
                 <div><MdDirectionsRun size={80} /></div>
                 <div>{sprintName}</div>
-            </button>
+            </button> 
             &nbsp;
             &nbsp;
-        
         </>
     }
 
@@ -53,6 +83,10 @@ const SprintView = () => {
 
         const newSprint = {
             id: sprintName,
+            sprintBacklog: [],
+            startDate: sprintStartDate,
+            endDate: sprintEndDate,
+            started: false,
         };
 
         setSprints(
@@ -63,14 +97,29 @@ const SprintView = () => {
     const addSprintForm = () => {
         return (
             <form onSubmit={handleSubmit}>
-                <label>Enter new sprint name:
-                    <input 
+                <label>
+                    Enter new sprint name: <input 
                     type="text" 
                     value={sprintName}
                     onChange={(e) => setSprintName(e.target.value)}
                     />
                 </label>
-                <input type="submit" value="Add"/>
+                <br />
+                <label>
+                    Enter sprint start date: <input
+                    type = "datetime-local"
+                    id = "sprintStartTime"
+                    onChange={(e) => setSprintStartDate(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>Enter sprint end date: <input
+                    type = "datetime-local"
+                    id = "sprintEndTime"
+                    onChange={(e) => setSprintEndDate(e.target.value)}/>
+                </label>
+                <br />
+                <input type="submit" value="Add Sprint"/>
             </form>
         )
     }
@@ -96,12 +145,12 @@ const SprintView = () => {
         );
     };
 
-
+    console.log('test', sprints)
     const sprintDisplay = sprints.map((sprint) => createSprintElement(sprint.id));
 
     return (<>
         {/* {sprints} */}
-        {sprintName}
+        {/* {sprintName} */}
         <h1>Sprint View</h1>
         
         {(sprints.length > 0) ? "" : <h4>You have no sprints! Click the button below to add one.</h4>}
