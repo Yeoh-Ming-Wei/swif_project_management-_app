@@ -10,42 +10,30 @@ import SprintView from "./SprintView";
 import Team from './Team';
 import SprintBoard from "./SprintBoard";
 import BurndownChart from "./BurndownChart";
+import FunctionalButton from "./components/buttons/functionalbutton";
 
 // useful reference: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
 function App() {
+
+  const adjustFontSize = (value) => {
+    const currentFontSize = parseInt(getComputedStyle(document.documentElement)
+      .getPropertyValue('font-size')
+      .slice(0,-2));
+    document.documentElement.style.setProperty('font-size', (currentFontSize + value) + "px");
+  }
+
   return (
-    <BrowserRouter>
-      <div>
-        <nav>
-          <Link to="projects">Projects</Link>
-        </nav>
-        <div style={{display:"flex", flexDirection:"row", justifyContent:"space-evenly"}}>
-          Adjust font size:
-          <div>
-            <button 
-              type="button" 
-              className="button" 
-              onClick={() => {
-                const currentFontSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('font-size').slice(0,-2));
-                document.documentElement.style.setProperty('font-size', (currentFontSize - 2) + "px");
-              }}
-            >
-              -
-            </button>
-            &nbsp;
-            <button 
-              type="button" 
-              className="button" 
-              onClick={() => {
-                const currentFontSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('font-size').slice(0,-2));
-                document.documentElement.style.setProperty('font-size', (currentFontSize + 2) + "px");
-              }}
-            >
-              +
-            </button>
-          </div>
+    <BrowserRouter>      
+      <nav><Link to="projects">Projects</Link></nav>
+      <div style={{display:"flex", flexDirection:"row", justifyContent:"space-evenly"}}>
+        Adjust font size:
+        <div>
+          <FunctionalButton text = "-" func = {() => adjustFontSize(-2)}/>
+          &nbsp;
+          <FunctionalButton text = "+" func = {() => adjustFontSize(+2)}/>
         </div>
       </div>
+      
 
       <Routes>
           <Route index element={<Projects />} />
