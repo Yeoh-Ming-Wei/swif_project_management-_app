@@ -2,7 +2,7 @@
 // import viteLogo from '/vite.svg'
 import "./App.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Projects from "./Projects";
+import Projects from "./Projects"
 import ProjectView from "./ProjectView";
 import MissingPage from "./MissingPage";
 import ProductBacklog from './ProductBacklog';
