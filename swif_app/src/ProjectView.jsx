@@ -2,19 +2,13 @@ import { useState, useEffect } from 'react';
 import { MdList, MdDelete, MdDirectionsRun } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-const ProjectView = () => {
-    const getProject = () => {
-        const storedProjects = JSON.parse(localStorage.getItem("projects")); // converting from string to object
-        if (storedProjects) {
-          console.log("stored projects found, restoring", storedProjects);
-          return storedProjects;
-        } else {
-          console.log("no projects found, initialising projects", INITIAL_PROJECTS);
-          return INITIAL_PROJECTS;
-        }
-    };
+import FunctionalButton from './components/buttons/functionalbutton';
 
-    const [project, setProject] = useState(getProject());
+const ProjectView = () => {                                                                                 
+
+    const projectObj = JSON.parse(localStorage.getItem("projects"))
+
+    const [project, setProject] = useState(projectObj);
 
     // runs whenever projects change
     useEffect(() => {
@@ -41,46 +35,34 @@ const ProjectView = () => {
         }, 1);
         
     }
-
-    const backlogButton =   
-        <button 
-            type="button" 
-            className="button" 
-            onClick={() => navigate("/product-backlog")}
-        >
-            <div><MdList size={80} /></div>
-            <div>Product Backlog</div>
-            
-        </button>
-
     
+    const productBacklogButton = <FunctionalButton 
+        func = {() => navigate("/product-backlog")}
+        text = {<>
+                <div><MdList size={80} /></div>
+                <div>Product Backlog</div>
+                </>} />
 
-    const sprintViewButton =   
-    <button 
-        type="button" 
-        className="button" 
-        onClick={() => navigate("/sprints")}
-    >
-        <div><MdDirectionsRun size={80} /></div>
-        <div>Sprint View</div>
-    </button>
+    const sprintViewButton = <FunctionalButton 
+        func = {() => navigate("/sprints")}
+        text = {<>
+                <div><MdDirectionsRun size={80} /></div>
+                <div>Sprint View</div>
+                </>}/>
 
-    const deleteProjectButton =
-        <button 
-            type="button" 
-            className="button"
-            onClick={() => deleteProject()}
-        >
-            <div><MdDelete size={80} /></div>
-            <div>Delete Project</div>
-        </button>
+    const deleteProjectButton = <FunctionalButton 
+        func = {() => deleteProject()}
+        text = {<>
+                <div><MdDelete size={80} /></div>
+                <div>Delete Project</div>
+                </>}/>
 
     return (
         <>
             <h1>Project View</h1>
             <h2>Project Name: {project.activeProject}</h2>
             <div>
-                {backlogButton}
+                {productBacklogButton}
                 &nbsp;
                 &nbsp;
                 {sprintViewButton}
