@@ -4,36 +4,25 @@ import { MdFolder, MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
 const Projects = () => {
+
+    const projectObj = JSON.parse(localStorage.getItem("projects"))
+
     const INITIAL_PROJECTS = {
         // testCount: 0,
         projects: [],
         activeProject: null,
     };
 
-    const getProject = () => {
-        const storedProjects = JSON.parse(localStorage.getItem("projects")); // converting from string to object
-        if (storedProjects) {
-          console.log("stored projects found, restoring", storedProjects);
-          return storedProjects;
-        } else {
-          console.log("no projects found, initialising projects", INITIAL_PROJECTS);
-          return INITIAL_PROJECTS;
-        }
-    };
-
     // initialise using stored state, if any, or the intial state otherwise
-    const [project, setProject] = useState(getProject());
+    const [project, setProject] = useState(projectObj == undefined ? INITIAL_PROJECTS : projectObj);
+    const [name, setName] = useState("");
+    const [open, setOpen] = useState(false);
 
     // runs whenever projects change
     useEffect(() => {
         console.log("writing project to local storage", project);
         localStorage.setItem("projects", JSON.stringify(project)); // convert to string before storing
     }, [project]);
-
-
-    const [name, setName] = useState("");
-
-
 
     const createProjectElement = (projectName) => {
         return (
@@ -109,8 +98,6 @@ const Projects = () => {
         )
     }
 
-    const [open, setOpen] = useState(false);
-
     const createProjectPopup = () => {
         const closeModal = () => setOpen(false);
         return (
@@ -129,20 +116,14 @@ const Projects = () => {
         );
     };
 
-    // component to display projects
-    const projectDisplay =
-        <div className="project-elements-display">
-            {(project.projects.length > 0) ? "" : <h4>You have no projects! Click the button below to add one.</h4>}
-            {getProjectElements()}
-        </div>;
-
     return (
         <>
             <h1>Projects</h1>
-            {projectDisplay}
+            <div className="project-elements-display">
+            {(project.projects.length > 0) ? "" : <h4>You have no projects! Click the button below to add one.</h4>}
+            {getProjectElements()}
+            </div>
             {createProjectPopup()}
-    
-            
         </>
     )
 }
