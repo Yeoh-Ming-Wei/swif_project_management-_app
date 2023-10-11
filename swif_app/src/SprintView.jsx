@@ -37,7 +37,7 @@ const SprintView = () => {
             <button 
                 type="button" 
                 className="button" 
-                onClick={() => navigate("/sprint_board")}
+                onClick={() => navigate("/sprint_manager")}
                 onMouseEnter={() => setActiveSprint(sprintName)}
             >
                 <div><MdDirectionsRun size={80} /></div>

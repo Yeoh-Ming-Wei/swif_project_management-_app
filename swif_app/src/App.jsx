@@ -7,6 +7,7 @@ import ProjectView from "./ProjectView";
 import MissingPage from "./MissingPage";
 import ProductBacklog from './ProductBacklog';
 import SprintView from "./SprintView";
+import SprintManager from "./SprintManager";
 import Team from './Team';
 import SprintBoard from "./SprintBoard";
 import BurndownChart from "./BurndownChart";
@@ -42,6 +43,7 @@ function App() {
           <Route path="product-backlog" element={<ProductBacklog />} />
           <Route path="sprints" element={<SprintView />} />
           <Route path="sprint_board" element={<SprintBoard />} />
+          <Route path="sprint_manager" element={<SprintManager />} />
           <Route path="burndown_chart" element={<BurndownChart />} />
           <Route path="team" element={<Team />} />
           <Route path="*" element={<MissingPage />} />
