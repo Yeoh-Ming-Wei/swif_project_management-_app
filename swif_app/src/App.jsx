@@ -49,7 +49,9 @@ function App() {
 
       <Routes>
           <Route index element={<Projects />} />
+          <Route index element={<TeamView />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="TeamView" element={<TeamView />} />
           <Route path="view" element={<ProjectView />} />
           <Route path="product-backlog" element={<ProductBacklog />} />
           <Route path="sprints" element={<SprintView />} />
