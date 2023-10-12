@@ -16,8 +16,9 @@ const BurndownChart = () => {
   const activeSprintBacklog = activeSprint.sprintBacklog;
   const startDate = new Date(activeSprint.startDate);
   const endDate = new Date(activeSprint.endDate);
-  const durationDays = (endDate.getTime() - startDate.getTime()) / ( (1000 * 3600 * 24))
-  console.log('sprint duration', durationDays)
+  const durationDays = (endDate.getTime() - startDate.getTime()) / ( (1000 * 3600 * 24));
+  const today = Date.now();
+  console.log('sprint duration', durationDays);
 
   let burndownData = [];
 
@@ -27,7 +28,7 @@ const BurndownChart = () => {
       actual: value1,
       expected: value2,
     });
-  }
+  };
 
   const startingStoryPoints = activeSprintBacklog.reduce(
     ((acc, task) => {
@@ -38,7 +39,7 @@ const BurndownChart = () => {
       const storyPoints = parseInt(task.storyPoints) + 1;
       return acc + storyPoints;
     }), 0
-  )
+  );
 
   for (let i = 0; i <= durationDays; i++) {
     console.log("day", i)
@@ -58,10 +59,11 @@ const BurndownChart = () => {
         }
       }, 0
     )
-    const remainingStoryPoints = startingStoryPoints - completedStoryPoints
-    const expectedRemainingStoryPoints = startingStoryPoints - ((startingStoryPoints / durationDays) * i)
+    console.log("today",new Date (today), "data date", new Date(startDate.getTime() + (i * (86400000))))
+    const remainingStoryPoints = (new Date(startDate.getTime() + (i * (86400000))) <= new Date (today)) ? (startingStoryPoints - completedStoryPoints) : null;
+    const expectedRemainingStoryPoints = startingStoryPoints - ((startingStoryPoints / durationDays) * i);
     burndownData.push(createDataObject(newDate.toUTCString().slice(0, -18), remainingStoryPoints, expectedRemainingStoryPoints));
-  }
+  };
 
   const renderLineChart = (
     <LineChart width={1000} height={500} data={burndownData}>
@@ -73,7 +75,7 @@ const BurndownChart = () => {
       <Legend />
       <Tooltip />
     </LineChart>
-  )
+  );
 
   return (
     <>
