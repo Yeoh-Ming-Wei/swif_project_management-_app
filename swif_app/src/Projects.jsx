@@ -11,6 +11,7 @@ const Projects = () => {
         // testCount: 0,
         projects: [],
         activeProject: null,
+        activeSprint: null
     };
 
     // initialise using stored state, if any, or the intial state otherwise
