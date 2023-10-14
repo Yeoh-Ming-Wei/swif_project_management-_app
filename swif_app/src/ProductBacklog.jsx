@@ -20,11 +20,7 @@ const ProductBacklog = () => {
     const [sort, setSort] = useState(0);
     const [filter, setFilter] = useState([]);
 
-    const prioritySelection = ["Low", "Medium", "Important", "Urgent"];
     const storyTagSelection = ["Frontend", "Backend", "API", "Framework", "Testing", "UI", "UX", "Database"];
-    const storyPointSelection = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-    const taskStageSelection = ["Planning", "Development", "In Progress", "Completed"];
-   
 
 	useEffect(() => {
         // Save the task id to localStorage whenever it changes
@@ -179,10 +175,7 @@ const ProductBacklog = () => {
               
 			{tasks.filter(tFilter => filter.length == 0 || filter.includes(storyTagSelection[tFilter.tag])).map(t => (    
             <Card 
-                id = {"card" + t.id}
-                title = {t.name} taskStage={taskStageSelection[t.taskStage]} 
-                priority={prioritySelection[t.priority]} 
-                storyPoints= {storyPointSelection[parseInt(t.storyPoints)]}
+                task = {t}
                 key = {t.id}
                 editFunction={() => setTaskManager(t.id)}
                 deleteFunction={() => setTasks(tasks.filter(tfilter => tfilter.id != t.id))}
