@@ -29,7 +29,8 @@ const SprintView = () => {
 
     useEffect(() => {
         console.log("updating active sprint to local storage", activeSprintName);
-        localStorage.setItem("activeSprint", JSON.stringify(activeSprintName)); // convert to string before storing
+        projects.activeSprint = activeSprintName
+        localStorage.setItem("projects", JSON.stringify(projects)); // convert to string before storing
     }, [activeSprintName]);
 
     const createSprintElement = (sprintName) => {
