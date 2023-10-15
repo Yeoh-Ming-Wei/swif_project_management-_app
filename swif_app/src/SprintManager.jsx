@@ -8,46 +8,39 @@ const SprintManager = () => {
 
     const p = JSON.parse(localStorage.getItem("projects"))
     const activeP = p.projects.filter(project => project.id == p.activeProject)[0]
-    let activeSprint = activeP.sprints.filter(sprint => sprint.id == p.activeSprint)[0]
+    const activeSprint = activeP.sprints.filter(sprint => sprint.id == p.activeSprint)[0]
 
-    const [sprint, setSprint] = useState(activeSprint)
-    const [sprintTask, setActiveSprintTask] = useState(activeSprint.sprintBacklog)
+    const restoreSprint = () => {
+        console.log(activeSprint)
+        return(activeSprint)
+    }
+    const [sprint, setSprint] = useState(restoreSprint())
     const [draggedTask, setDraggedTask] = useState(null);
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log("updating dragged task to local storage", draggedTask);
         localStorage.setItem("draggedTask", JSON.stringify(draggedTask)); // convert to string before storing
     }, [draggedTask]);
 
     useEffect(() => {
-        activeSprint = sprint
+        activeP.sprints = activeP.sprints.map(s => {
+                if (s.id == activeSprint.id) {
+                    s = sprint
+                }
+                return s
+            })
         p.projects.map(project => {
             if (project.id == activeP.id){
                 project = activeP
             }
             return project
         })
-        localStorage.setItem("projects", JSON.stringify(p))
+        localStorage.setItem("projects", JSON.stringify(p)); // convert to string before storing
+        
     }, [sprint])
 
-    useEffect(() => {
-        activeSprint.sprintBacklog = sprintTask
-        p.projects.map(project => {
-            if (project.id == activeP.id){
-                project = activeP
-            }
-            return project
-        })
-        localStorage.setItem("projects", JSON.stringify(p))
-    }, [sprintTask])
-
-
     const dragTask = (event, task) => {
-        console.log('PB dragging');
-        const currentDragged = JSON.parse(localStorage.getItem("draggedTask"));
-        console.log(currentDragged);
         setDraggedTask(task);
     }
 
@@ -64,7 +57,6 @@ const SprintManager = () => {
     const dragSprintEvent = (event, n) => {
         // parameter n : n = 0 -> Product to Sprint, n = 1 -> Sprint to Product
         setDraggedTask(null);
-        console.log("dropped", draggedTask);
 
         if (sprint.status === "In Progress") {
             alert("You cannot move tasks into a sprint once it has already started!");
@@ -72,16 +64,17 @@ const SprintManager = () => {
         }
 
         if (n == 0) {
-            setActiveSprintTask(sprintTask.concat(draggedTask.id))
+            setSprint({...sprint, 
+                sprintBacklog: sprint.sprintBacklog.concat(draggedTask.id)})
         }
-        if (n == 1) {
-            setActiveSprintTask(sprintTask.filter(t => t != draggedTask.id))
+        if (n == 1) {setSprint({...sprint, 
+                sprintBacklog: sprint.sprintBacklog.filter(t => t != draggedTask.id)})
         }
 
     }
 
     const startSprint = () => {
-        if (sprintTask.length == 0) {
+        if (sprint.sprintBacklog.length == 0) {
             alert("There is no task inside sprint backlog!")
             return
         }
@@ -109,21 +102,18 @@ const SprintManager = () => {
             <div width={"400px"} onDrop={(event) => {dragSprintEvent(event, 1)}} style={{border:"2px solid grey"}}>
                 <div style={{width:"300px"}}/>
                 <h2>Product Backlog</h2>
-                {activeP.tasks.filter(t => !sprintTask.includes(t.id)).map(t => { return ( <Card task = {t} key = {t.id} onDrag = {(event) => {dragTask(event, t)}} onDragEnd = {dragEnd}/> )})}
+                {activeP.tasks.filter(t => !sprint.sprintBacklog.includes(t.id)).map(t => { return ( <Card task = {t} key = {t.id} onDrag = {(event) => {dragTask(event, t)}} onDragEnd = {dragEnd}/> )})}
             </div>
             
             <div width={"400px"}onDrop={(event) => {dragSprintEvent(event, 0)}} style={{border:"2px solid grey"}}>
                 <div style={{width:"300px"}}/>
                 <h2>Sprint Backlog</h2>
-                {activeP.tasks.filter(t => sprintTask.includes(t.id)).map(t => { return ( <Card task = {t} key = {t.id} onDrag = {(event) => {dragTask(event, t)}} onDragEnd = {dragEnd}/> )})}
+                {activeP.tasks.filter(t => sprint.sprintBacklog.includes(t.id)).map(t => { return ( <Card task = {t} key = {t.id} onDrag = {(event) => {dragTask(event, t)}} onDragEnd = {dragEnd}/> )})}
             </div>  
         </div>
         </div> 
         </>
-        
-
     )
-    
 }
 
 export default SprintManager ;
