@@ -115,6 +115,11 @@ const SprintManager = () => {
         
         if (sprint.status === "In Progress") {
             alert("Sprint is already in progress!");
+            return
+        }
+
+        if (sprint.status === "Completed") {
+            alert("You can't start a completed sprint!")
         }
     }
 
