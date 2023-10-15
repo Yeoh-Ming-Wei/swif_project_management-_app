@@ -303,3 +303,9 @@ card-low {
     border-bottom-left-radius: 0;
   }
 }
+
+.functional-button {
+  border-color : #ffffff ;
+  border-radius : 10px ;
+  border-style : solid ;
+}
