@@ -56,6 +56,11 @@ const SprintView = () => {
                 alert("Sprint is already in progress!");
                 return s
             }
+
+            if (s.id === id && s.status === "Completed") {
+                alert("You can't start a completed sprint!")
+                return s
+            }
         })
         setSprints(s)
     }
