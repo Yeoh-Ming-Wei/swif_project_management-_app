@@ -11,9 +11,10 @@ const SprintManager = () => {
     const activeSprint = activeP.sprints.filter(sprint => sprint.id == p.activeSprint)[0]
 
     const restoreSprint = () => {
-        console.log(activeSprint)
         return(activeSprint)
     }
+
+    const [task, setTask] = useState(activeP.tasks)
     const [sprint, setSprint] = useState(restoreSprint())
     const [draggedTask, setDraggedTask] = useState(null);
 
@@ -30,6 +31,7 @@ const SprintManager = () => {
                 }
                 return s
             })
+        
         p.projects.map(project => {
             if (project.id == activeP.id){
                 project = activeP
@@ -39,6 +41,19 @@ const SprintManager = () => {
         localStorage.setItem("projects", JSON.stringify(p)); // convert to string before storing
         
     }, [sprint])
+
+    useEffect(() => {
+       activeP.tasks = task
+        p.projects.map(project => {
+            if (project.id == activeP.id){
+                project = activeP
+            }
+            return project
+        })
+        localStorage.setItem("projects", JSON.stringify(p)); // convert to string before storing
+        
+    }, [task])
+
 
     const dragTask = (event, task) => {
         setDraggedTask(task);
@@ -64,13 +79,23 @@ const SprintManager = () => {
         }
 
         if (n == 0) {
+
             setSprint({...sprint, 
                 sprintBacklog: sprint.sprintBacklog.concat(draggedTask.id)})
+            setTask(task.map( t => {
+                if (t.id == draggedTask.id) {
+                    t.taskStage = 0
+                }
+                return t
+            }))
+            
         }
-        if (n == 1) {setSprint({...sprint, 
+        if (n == 1) {
+            setSprint({...sprint, 
                 sprintBacklog: sprint.sprintBacklog.filter(t => t != draggedTask.id)})
+            
         }
-
+        window.location.reload() // needed to update product backlog component
     }
 
     const startSprint = () => {
