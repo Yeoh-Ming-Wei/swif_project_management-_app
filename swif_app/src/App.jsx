@@ -4,6 +4,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Projects from "./Projects";
 import ProjectView from "./ProjectView";
+import TeamView from "./TeamView";
 import MissingPage from "./MissingPage";
 import ProductBacklog from './ProductBacklog';
 import SprintView from "./SprintView";
@@ -49,7 +50,7 @@ function App() {
 
       <Routes>
           <Route index element={<Projects />} />
-          <Route index element={<TeamView />} />
+{/*           <Route index element={<TeamView />} /> */}
           <Route path="projects" element={<Projects />} />
           <Route path="TeamView" element={<TeamView />} />
           <Route path="view" element={<ProjectView />} />

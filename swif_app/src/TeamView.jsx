@@ -16,32 +16,36 @@ const TeamView = () => {
         createUserAccount(4, "Profile4", "Dennis", "Password4", "Admin")
     ];
 
-    const createAccountCard = () => {
-        const Card = ({id, profilePicture, name, password, accountType}) => {
-
+    const createAccountCard = (id, name, password, accountType) => {
         return (
-            <div id={id} className={"card"} draggable="true" onDrag = {onDragFunction} onDragEnd = {dragEnd} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: bgColours(priority), color: "black", borderRadius: "16px"}}>
+            <div id={id} className={"card"} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: "white", color: "black", borderRadius: "16px"}}>
                 <div className="card-body" style={{display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
                     <h3 className="card-title" align="left">{name}</h3>
                     <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
                         <p className="card-text" align="left">{accountType}</p>
                     </div>
                     <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
-                        <button onClick={editFunction}>Edit</button>
-                        <button onClick={deleteFunction}>Delete</button>
+                        <button>Edit</button>
+                        <button>Delete</button>
                     </div>
                 </div>
             </div>
-            )
-        }
+        )
     }
 
-    const MemberDisplay = () => accounts.maps(createUserAccount);
+    const MemberDisplay = () => {
+        return accounts.map(( account) => {
+            console.log(account)
+            return createAccountCard(account.id, account.name, account.password, account.accountType);
+        });
+
+    }
 
     return (<>
         <h1>Team Members</h1>
-        {MemberDisplay}
-        {createSprintPopup()}
+        {MemberDisplay()}
     </>);
 
 }
+
+export default TeamView;
