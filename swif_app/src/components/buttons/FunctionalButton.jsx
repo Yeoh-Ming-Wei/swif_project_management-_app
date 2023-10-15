@@ -2,7 +2,7 @@ const FunctionalButton = ({text, func}) => {
     return (
         <button 
             type="button" 
-            className="button" 
+            className="functional-button" 
             onClick={func} >
             {text}
         </button>
