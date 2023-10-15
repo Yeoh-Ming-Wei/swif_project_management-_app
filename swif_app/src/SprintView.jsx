@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
 import Popup from 'reactjs-popup';
+import FunctionalButton from './components/buttons/functionalbutton';
 
 const SprintView = () => {
     const projects = JSON.parse(localStorage.getItem("projects"));
@@ -33,19 +34,60 @@ const SprintView = () => {
         localStorage.setItem("projects", JSON.stringify(projects)); // convert to string before storing
     }, [activeSprintName]);
 
-    const createSprintElement = (sprintName) => {
+    const deleteSprint = (id) => {
+        setSprints(sprints.filter(s => s.id != id))
+    }
+
+    const startSprint = (id) => {
+        const s = sprints.map(s => {
+            if (s.id === id && s.sprintBacklog.length == 0) {
+                alert("There is no task inside sprint backlog!")
+                return s
+            }
+            
+            if (s.id === id && s.status === "Not Started") {
+                s.status = "In Progress" 
+                s.started = true
+                alert("Sprint starts!");
+                return s
+            }
+            
+            if (s.id === id && s.status === "In Progress") {
+                alert("Sprint is already in progress!");
+                return s
+            }
+        })
+        setSprints(s)
+    }
+
+    const createSprintElement = (sprint) => {
         return <>
-            <button 
-                type="button" 
-                className="button" 
-                onClick={() => navigate("/sprint_manager")}
-                onMouseEnter={() => setActiveSprint(sprintName)}
-            >
-                <div><MdDirectionsRun size={80} /></div>
-                <div>{sprintName}</div>
-            </button> 
+            <div>
+                <button style={{borderStyle: "solid", borderColor : "white"}}
+                    type="button" 
+                    className="button" 
+                    onClick={() => navigate("/sprint_manager")}
+                    onMouseEnter={() => setActiveSprint(sprint.id)}
+                >
+                    <div>
+                        <div>
+                        <MdDirectionsRun size={80} />
+                        </div>
+                        {sprint.id}
+                        <p>Start Date: {sprint.startDate.replace("T", " ")}</p>
+                        <p>End Date: {sprint.endDate.replace("T", " ")}</p>
+                        <p>Status: {sprint.status}</p>
+                    </div>
+                </button> 
+                <div>
+                    <FunctionalButton text="Start Sprint" func={() => startSprint(sprint.id)} />
+                    <FunctionalButton text="Delete Sprint" func={() => deleteSprint(sprint.id)} />
+                </div>
+                &nbsp;
+                &nbsp;
+            </div>
             &nbsp;
-            &nbsp;
+            
         </>
     }
 
@@ -76,6 +118,7 @@ const SprintView = () => {
             sprintBacklog: [],
             startDate: elementValue("sprintStartTime"),
             endDate: elementValue("sprintEndTime"),
+            status: "Not Started",
             started: false,
         };
         console.log(newSprint)
@@ -134,7 +177,7 @@ const SprintView = () => {
     };
 
     console.log('test', sprints)
-    const sprintDisplay = sprints.map((sprint) => createSprintElement(sprint.id));
+    const sprintDisplay = sprints.map((sprint) => createSprintElement(sprint));
 
     return (<>
         <h1>Sprint View</h1>
