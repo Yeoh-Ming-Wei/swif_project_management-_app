@@ -35,13 +35,8 @@ const Card = ({task, editFunction, deleteFunction, onDrag, onDragEnd}) => {
                 <h3 className="card-text" align="right">{storyPointSelection[parseInt(task.storyPoints)]}</h3>
             </div>
             <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
-                {editFunction !== undefined && deleteFunction !== undefined ? 
-                <>
-                <button onClick={editFunction}>Edit</button>
-                <button onClick={deleteFunction}>Delete</button>
-                </> : <></>}
-                
-                
+                {editFunction !== undefined ? <button onClick={editFunction}>Edit</button> : <></>}
+                {deleteFunction !== undefined ? <button onClick={deleteFunction}>Delete</button> : <></>} 
             </div>
             
             </div>
