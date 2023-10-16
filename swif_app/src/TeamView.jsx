@@ -56,6 +56,10 @@ const TeamView = () => {
         };
     }
 
+    const removeMember = (account) => {
+        setTeam(team.filter((member) => {member.id != account.id}));
+    }
+
     const viewProfile = (member) => {
         console.log('viewing profile of', member)
         setActiveProfile(member);
@@ -82,7 +86,7 @@ const TeamView = () => {
                         <button onClick={() => {viewProfile(account)}}>Profile</button>
                         {activeAccount.accountType == "Admin" ?
                         <><button onClick={() => {viewEffortGraph(account)}}>Analyze</button>
-                        <button>Remove</button></>: ""}
+                        <button onClick={() => {removeMember(account)}}>Remove</button></>: ""}
                         
                     </div>
                 </div>
