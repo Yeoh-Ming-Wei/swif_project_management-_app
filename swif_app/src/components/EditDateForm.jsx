@@ -2,26 +2,26 @@ const EditDateForm = ({task, buttonFunc}) => {
     return (
         <>
             <label>
-                Enter sprint start date: <input
-                type = "datetime-local"
-                id = "taskStartTime"
-                value = {task.startDate}
+                Enter task start date:
+                <input
+                    type = "datetime-local"
+                    id = "taskStartTime"
+                    defaultValue = {task.startDate}
                 />
             </label>
             <br />
-            <label>Enter sprint end date: <input
-                type = "datetime-local"
-                id = "taskEndTime"
-                value = {task.endDate}
+            <label>
+                Enter task end date:
+                <input
+                    type = "datetime-local"
+                    id = "taskEndTime"
+                    defaultValue = {task.endDate}
                 />
             </label>
             <div>
                 <button type="button" className="btn btn-primary" onClick={buttonFunc}>Save</button>
             </div>
-            
-        </>
-        
-        
+        </>    
     )
 }
 
