@@ -16,6 +16,7 @@ const BurndownChart = () => {
   const startDate = new Date(activeSprint.startDate);
   const endDate = new Date(activeSprint.endDate);
   const durationDays = (endDate.getTime() - startDate.getTime()) / ( (1000 * 3600 * 24))
+  const today = Date.now();
   console.log('sprint duration', durationDays)
 
   let burndownData = [];
@@ -60,7 +61,7 @@ const BurndownChart = () => {
         }
       }, 0
     )
-    const remainingStoryPoints = startingStoryPoints - completedStoryPoints
+    const remainingStoryPoints = (new Date(startDate.getTime() + (i * (86400000))) <= new Date (today)) ? (startingStoryPoints - completedStoryPoints) : null;
     const expectedRemainingStoryPoints = startingStoryPoints - ((startingStoryPoints / durationDays) * i)
     burndownData.push(createDataObject(newDate.toUTCString().slice(0, -18), remainingStoryPoints, expectedRemainingStoryPoints));
   }
