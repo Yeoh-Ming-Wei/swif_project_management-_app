@@ -77,6 +77,7 @@ const Projects = () => {
             id: name,
             tasks: [],
             sprints: [],
+            team: [],
         }
         setProject({
             ...project,
