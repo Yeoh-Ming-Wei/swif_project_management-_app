@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MdList, MdDelete, MdDirectionsRun } from "react-icons/md";
+import { MdList, MdDelete, MdDirectionsRun, MdPeople } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 import FunctionalButton from './components/buttons/functionalbutton';
@@ -52,6 +52,13 @@ const ProjectView = () => {
                 <div>Sprint View</div>
                 </>}/>
 
+    const teamViewButton = <FunctionalButton 
+    func = {() => navigate("/teamView")}
+    text = {<>
+            <div><MdPeople size={80} /></div>
+            <div>Team View</div>
+            </>}/>
+
     const deleteProjectButton = <FunctionalButton 
         func = {() => deleteProject()}
         text = {<>
@@ -68,6 +75,9 @@ const ProjectView = () => {
                 &nbsp;
                 &nbsp;
                 {sprintViewButton}
+                &nbsp;
+                &nbsp;
+                {teamViewButton}
                 &nbsp;
                 &nbsp;
                 {deleteProjectButton}
