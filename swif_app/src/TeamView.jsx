@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MdAddBox } from "react-icons/md";
+import { MdAddBox, MdDashboard } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
 const TeamView = () => {
@@ -7,7 +7,7 @@ const TeamView = () => {
     const activeProjectId = projects.activeProject;
     const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
     const projectTeam = activeProject.team;
-    console.log('pteam',projectTeam)
+    // console.log('pteam',projectTeam)
 
     const [memberId, setMemberId] = useState(JSON.parse(localStorage.getItem("memberId")) || 1);
     useEffect(() => {
@@ -37,33 +37,25 @@ const TeamView = () => {
 
     console.log('team',team)
 
-    function createUserAccount(id, profilePicture, name, password, accountType) {
+    function createUserAccount(id, name, email, password, accountType) {
         return {
             id: id,
-            profilePicture: profilePicture,
+            email: email,
             name: name,
             password: password,
             accountType: accountType
         };
     }
-    // const accounts = [
-    //     createUserAccount(1, "Profile1", "Alice", "Password1", "Member"),
-    //     createUserAccount(2, "Profile2", "Ben", "Password2", "Member"),
-    //     createUserAccount(3, "Profile3", "Carol", "Password3", "Member"),
-    //     createUserAccount(4, "Profile4", "Dennis", "Password4", "Admin")
-    // ];
 
     const createAccountCard = (account) => {
         return (
-            <div id={account.id} className={"card"} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: "white", color: "black", borderRadius: "16px"}}>
+            <div id={account.id} className={"card"} style={{width: '18rem', height: '10rem', margin: "10px", padding: "10px", backgroundColor: "lightpink", color: "black", borderRadius: "16px"}}>
                 <div className="card-body" style={{display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
                     <h3 className="card-title" align="left">{account.name}</h3>
-                    <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-                        <p className="card-text" align="left">{account.accountType}</p>
-                    </div>
+                    <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>{account.email}</div>
                     <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
-                        {/* <button>Edit</button>
-                        <button>Delete</button> */}
+                        <button>Analyze</button>
+                        <button>Remove</button>
                     </div>
                 </div>
             </div>
@@ -75,7 +67,7 @@ const TeamView = () => {
         console.log('submitting form');
 
         const elementValue = (str) => (document.getElementById(str).value);
-        const newMember = createUserAccount(memberId, null, elementValue("memberName"), elementValue("memberPassword"), "Member")
+        const newMember = createUserAccount(memberId, elementValue("memberName"), elementValue("memberEmail"), elementValue("memberPassword"), "Member")
         setTeam(team.concat(newMember));
         setMemberId(memberId + 1);
     }
@@ -91,9 +83,17 @@ const TeamView = () => {
                 </label>
                 <br />
                 <label>
+                    Enter email address: <input 
+                    type="email" 
+                    id = "memberEmail"
+                    />
+                </label>
+                <br />
+                <label>
                     Enter password: <input
                     type = "password"
                     id = "memberPassword"
+                    defaultValue= "12345"
                     />
                 </label>
                 <br />
@@ -126,9 +126,16 @@ const TeamView = () => {
     const MemberDisplay = () => {
         return team.map((account) => {
             // console.log(account);
-            return createAccountCard(account);
+            return (account.accountType == "Admin") ? "" : createAccountCard(account);
         });
 
+    }
+
+    const dashBoardButton = () => {
+        return <button type="button" className="button">
+            <div><MdDashboard size={36} /></div>
+            <div>View Team Dashboard</div>
+        </button>;
     }
 
     return (<>
@@ -136,6 +143,7 @@ const TeamView = () => {
         {(team.length > 0) ? "" : <h4>You have no team members! Click the button below to add one.</h4>}
         {createMemberPopup()}
         {MemberDisplay()}
+        {(team.length > 0) ? dashBoardButton() : ""}
     </>);
 
 }

@@ -19,6 +19,7 @@ const SprintBoard = () => {
     const [sprint, setSprint] = useState(activeSprint);
     const [editing, setEditing] = useState(-1);
     
+    const activeAccount = JSON.parse(localStorage.getItem("activeAccount"));
     
     useEffect(() => {
         activeP.sprints = activeP.sprints.map(s => {
@@ -74,6 +75,7 @@ const SprintBoard = () => {
             if (t.id == id) {
                 t.startDate = elementValue("taskStartTime")
                 t.endDate = elementValue("taskEndTime")
+                t.member = activeAccount
                 console.log(id)
             }
             console.log(id)
@@ -160,7 +162,7 @@ const SprintBoard = () => {
                         <div style={{width:"300px"}}/>
                         <h2>Completed</h2>
                         {activeP.tasks.filter(t => sprint.sprintBacklog.includes(t.id) && t.taskStage == 3)
-                        .map(t => <Card task = {t} key = {t.id} onDrag = {(event) => {dragTask(event, t)}} onDragEnd = {dragEnd}  editFunction={() => setEditing(t.id)}/>)}
+                        .map(t => <Card task = {t} key = {t.id} onDrag = {(event) => {dragTask(event, t)}} onDragEnd = {dragEnd}/>)}
                     </div>  
                 </div>
             </div>

@@ -73,11 +73,19 @@ const Projects = () => {
         console.log('submitting form')
 
         if (!isValidProjectName(name)) { return } // don't accept invalid names
+        const adminAccount = {
+            id: 0,
+            email: "admin",
+            name: "admin",
+            password: "admin12345",
+            accountType: "Admin"
+        };
+
         const newProject = {
             id: name,
             tasks: [],
             sprints: [],
-            team: [],
+            team: [adminAccount],
         }
         setProject({
             ...project,
