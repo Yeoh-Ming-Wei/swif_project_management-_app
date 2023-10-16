@@ -7,6 +7,7 @@ const TeamView = () => {
     const activeProjectId = projects.activeProject;
     const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
     const projectTeam = activeProject.team;
+    console.log('pteam',projectTeam)
 
     const [memberId, setMemberId] = useState(JSON.parse(localStorage.getItem("memberId")) || 1);
     useEffect(() => {
@@ -21,10 +22,11 @@ const TeamView = () => {
         const newActiveProject = {...activeProject,
             team: team,
         }
-        newProjects.projects.map(
+        newProjects.projects = newProjects.projects.map(
             project => {
                 if (project.id == activeProjectId) {
-                    project = newActiveProject;
+                    console.log('replacing!', newActiveProject);
+                    return newActiveProject;
                 }
                 return project;
             }
@@ -69,38 +71,10 @@ const TeamView = () => {
     }
 
     const handleSubmit = (event) => {
-        // const isValidSprintName = (name) => {
-        //     if (name.length === 0) {
-        //         console.log("rejecting empty sprint name");
-        //         alert("Sprint name cannot be empty!");
-        //         return false;
-        //     }
-        //     console.log(sprints)
-        //     if (sprints.filter((sprint) => (sprint.id == name)).length > 0) {
-        //         console.log("duplicate sprint name, rejecting");
-        //         alert("Sprint with that name already exists! Please choose a different name.")
-        //         return false;
-        //     }
-        //     return true;
-        // }
         event.preventDefault();
         console.log('submitting form');
 
         const elementValue = (str) => (document.getElementById(str).value);
-        // if (!isValidSprintName(elementValue('sprintName'))) { return }; // don't accept invalid names
-        
-        // const newSprint = {
-        //     id: elementValue("sprintName"),
-        //     sprintBacklog: [],
-        //     startDate: elementValue("sprintStartTime"),
-        //     endDate: elementValue("sprintEndTime"),
-        //     status: "Not Started",
-        //     started: false,
-        // };
-        // console.log(newSprint)
-        // setSprints(
-        //     sprints.concat(newSprint)
-        // );
         const newMember = createUserAccount(memberId, null, elementValue("memberName"), elementValue("memberPassword"), "Member")
         setTeam(team.concat(newMember));
         setMemberId(memberId + 1);
