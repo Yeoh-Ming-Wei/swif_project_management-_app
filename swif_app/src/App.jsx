@@ -14,6 +14,7 @@ import SprintBoard from "./SprintBoard";
 import BurndownChart from "./BurndownChart";
 import FunctionalButton from "./components/buttons/functionalbutton";
 import Login from "./Login";
+import Profile from "./Profile";
 
 // useful reference: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="sprint_board" element={<SprintBoard />} />
           <Route path="sprint_manager" element={<SprintManager />} />
           <Route path="burndown_chart" element={<BurndownChart />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="team" element={<Team />} />
           <Route path="*" element={<MissingPage />} />
       </Routes>
