@@ -54,6 +54,7 @@ const ProductBacklog = () => {
             storyPoints: elementValue("Story Points"),
             member: elementValue("Assign To"),
             taskStage: elementValue("Task Stage"),
+            accumulatedWork: [],
         }
         // For adding new task
         if (num == 0) {

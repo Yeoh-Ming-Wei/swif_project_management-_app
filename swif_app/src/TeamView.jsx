@@ -57,10 +57,18 @@ const TeamView = () => {
     }
 
     const viewProfile = (member) => {
-        console.log('viewing', member)
+        console.log('viewing profile of', member)
         setActiveProfile(member);
         setTimeout(() => {         // delay navigation very slightly, to allow code above to take effect (hacky solution)
             navigate("/profile"); // return to projects view
+        }, 1);
+    }
+
+    const viewEffortGraph = (member) => {
+        console.log('viewing effort graph of', member)
+        setActiveProfile(member);
+        setTimeout(() => {        // delay navigation very slightly, to allow code above to take effect (hacky solution)
+            navigate("/effort_graph"); // return to projects view
         }, 1);
     }
 
@@ -73,7 +81,7 @@ const TeamView = () => {
                     <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
                         <button onClick={() => {viewProfile(account)}}>Profile</button>
                         {activeAccount.accountType == "Admin" ?
-                        <><button>Analyze</button>
+                        <><button onClick={() => {viewEffortGraph(account)}}>Analyze</button>
                         <button>Remove</button></>: ""}
                         
                     </div>
