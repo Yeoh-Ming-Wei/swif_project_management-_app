@@ -7,16 +7,17 @@ import Card from './components/Card';
 const ProductBacklog = () => {
     
     const p = JSON.parse(localStorage.getItem("projects"))
-    const activeP = p.projects.filter(project => project.id == p.activeProject)[0]
+    const activeP = p.projects.find(project => project.id == p.activeProject);
+    const projectTeam = activeP.team;
 
     const restoreTask = () => {
         console.log("Restoring Task")
         return activeP.tasks
-    }
+    };
 
 	const [taskId, setTaskId] = useState(JSON.parse(localStorage.getItem("taskId")) || 1);
     const [tasks, setTasks] = useState(restoreTask());
-    const [taskManager, setTaskManager] = useState(-1)
+    const [taskManager, setTaskManager] = useState(-1);
     const [sort, setSort] = useState(0);
     const [filter, setFilter] = useState([]);
 
@@ -91,7 +92,7 @@ const ProductBacklog = () => {
                 <Popup open={open} closeOnDocumentClick onClose={closeModal}>
                     <div className="modal">
                         <a className="close" onClick={closeModal}>&times;</a>
-                        <CreateTaskForm buttonFunc = {() => manageTask(0)}/>
+                        <CreateTaskForm buttonFunc = {() => manageTask(0)} members = {projectTeam}/>
                     </div>
                 </Popup>
             </div>
@@ -113,7 +114,7 @@ const ProductBacklog = () => {
                 <Popup open={(taskManager != -1)} closeOnDocumentClick onClose={closeModal}>
                     <div className="modal">
                         <a className="close" onClick={closeModal}>&times;</a>
-                        <CreateTaskForm usage = "edit" buttonFunc = {() => manageTask(taskBeingEdit.id)} task={taskBeingEdit}/>
+                        <CreateTaskForm usage = "edit" buttonFunc = {() => manageTask(taskBeingEdit.id)} task={taskBeingEdit} members = {projectTeam}/>
                     </div>
                 </Popup>
             </div>

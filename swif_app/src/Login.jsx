@@ -15,7 +15,7 @@ const loginForm = () => {
     const [password, setPassword] = useState();
     const [activeAccount, setActiveAccount] = useState();
     useEffect(() => {
-        // Save the member id to localStorage whenever it changes
+        // Save the active account to localStorage whenever it changes
         localStorage.setItem('activeAccount', JSON.stringify(activeAccount));
     }, [activeAccount]);
 

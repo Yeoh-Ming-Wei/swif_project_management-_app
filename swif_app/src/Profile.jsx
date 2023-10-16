@@ -113,7 +113,7 @@ const Profile = () => {
     };
 
     return <>
-        <h1>Profile</h1>
+        <h1>Member Profile</h1>
         <h3>Name: {activeProfile.name}</h3>
         <h3>Email: {activeProfile.email}</h3>
         {editDetailsPopup()}
