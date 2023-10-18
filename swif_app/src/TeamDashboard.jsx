@@ -51,7 +51,7 @@ const TeamDashboard = () => {
             
             <div className="members-list">
                 {teamMembers.map(member => {
-                    return createAccountCard(member);
+                    return (member.accountType == "Admin") ? "" : createAccountCard(member);;
                 })}
             </div>
         </div>
