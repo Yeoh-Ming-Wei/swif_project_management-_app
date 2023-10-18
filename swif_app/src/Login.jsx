@@ -3,10 +3,32 @@ import { useNavigate } from "react-router-dom";
 
 const loginForm = () => {
     const navigate = useNavigate();
+    const adminAccount = {
+        id: 0,
+        email: "admin",
+        name: "admin",
+        password: "admin12345",
+        accountType: "Admin"
+    };
+    const newProject = {
+        id: "Project",
+        tasks: [],
+        sprints: [],
+        team: [adminAccount],
+    }
 
-    const projects = JSON.parse(localStorage.getItem("projects"));
-    const activeProjectId = projects.activeProject || 0;
-    const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
+    const defaultProject = () => {
+        // testCount: 0,
+        return { 
+            projects: [newProject],
+            activeProject: "Project",
+            activeSprint: null
+        }
+    };
+
+    const projects = JSON.parse(localStorage.getItem("projects")) || defaultProject();
+    const activeProjectId = projects.activeProject;
+    const activeProject = projects.projects.find((project) => {return project.id == activeProjectId}) || newProject;
     const projectTeam = activeProject.team;
 
     console.log('setting up login...', activeProjectId, activeProject, projectTeam)
