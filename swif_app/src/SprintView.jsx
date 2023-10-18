@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
 import Popup from 'reactjs-popup';
 import FunctionalButton from './components/buttons/functionalbutton';
@@ -185,6 +185,12 @@ const SprintView = () => {
     const sprintDisplay = sprints.map((sprint) => createSprintElement(sprint));
 
     return (<>
+        <nav>
+            <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/view">Project View: {activeProjectId}</Link>
+        </nav>
+
         <h1>Sprint View</h1>
         
         {(sprints.length > 0) ? "" : <h4>You have no sprints! Click the button below to add one.</h4>}

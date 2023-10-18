@@ -127,7 +127,9 @@ const Projects = () => {
     };
 
     return (
-        <>
+        <>  
+        
+            <nav><Link to="/login">Login Page</Link></nav>
             <h1>Projects</h1>
             <div className="project-elements-display">
             {(project.projects.length > 0) ? "" : <h4>You have no projects! Click the button below to add one.</h4>}

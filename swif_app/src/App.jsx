@@ -29,17 +29,6 @@ function App() {
 
   return (
     <BrowserRouter>      
-      <nav>
-        <Link to="login">Login Page &nbsp;| </Link> &nbsp; &nbsp;
-        <Link to="profile">Profile &nbsp;| </Link> &nbsp; &nbsp;
-        <Link to="projects">Projects &nbsp;| </Link> &nbsp; &nbsp; 
-        <Link to="view">Project View &nbsp;| </Link> &nbsp; &nbsp;
-        <Link to="product-backlog">Product Backlog &nbsp;| </Link> &nbsp; &nbsp;
-        <Link to="sprints">Sprint View &nbsp;| </Link> &nbsp; &nbsp;
-        <Link to="sprint_board">Sprint Board &nbsp;| </Link> &nbsp; &nbsp;
-        <Link to="team">Team &nbsp;| </Link> &nbsp; &nbsp;
-        <Link to="TeamView">Team View &nbsp; </Link> &nbsp; &nbsp;
-      </nav>
       <div> &nbsp; </div>
       <div style={{display:"flex", flexDirection:"row", justifyContent:"space-evenly"}}>
         Adjust font size:

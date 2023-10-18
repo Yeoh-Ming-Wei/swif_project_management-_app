@@ -1,5 +1,5 @@
 import FunctionalButton from "./components/buttons/functionalbutton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 
 import Card from "./components/Card";
@@ -125,6 +125,13 @@ const SprintManager = () => {
 
     return (
         <>
+        <nav>
+            <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/view">Project View: {activeP.id} &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/sprints">Sprint View: {activeSprint.id} </Link>
+        </nav>
+        <h1>Sprint Manager</h1>
         <FunctionalButton text = "View Sprint Board" func = {() => navigate("/sprint_board")}/>
         <FunctionalButton text = "Start Sprint" func = {() => startSprint()}/>
         <div onDragOver={onDragOver}>

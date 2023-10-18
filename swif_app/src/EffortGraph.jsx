@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
@@ -57,8 +57,6 @@ const EffortGraph = () => {
           }, 0
         )
         console.log('tallied working hours', workedHours);
-        // const remainingStoryPoints = (new Date(startDate.getTime() + (i * (86400000))) <= new Date (today)) ? (startingStoryPoints - workedHours) : null;
-        // const expectedRemainingStoryPoints = startingStoryPoints - ((startingStoryPoints / durationDays) * i)
         data.push(createDataObject(newDate.toUTCString().slice(0, -18), workedHours));
       }
 
@@ -82,6 +80,12 @@ const EffortGraph = () => {
         </BarChart>;
 
     return <>
+        <nav>
+            <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/view">Project View: {activeProjectId} &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/teamView">Team View</Link>
+        </nav>
         <h1>{activeProfile.name}'s Effort Graph</h1>
         {barChart}
     </>

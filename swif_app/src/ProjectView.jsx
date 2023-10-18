@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdList, MdDelete, MdDirectionsRun, MdPeople } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 
 import FunctionalButton from './components/buttons/functionalbutton';
 
@@ -68,6 +68,11 @@ const ProjectView = () => {
 
     return (
         <>
+            <nav>
+                <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+                <Link to="/projects">Projects</Link>
+            </nav>
+            
             <h1>Project View</h1>
             <h2>Project Name: {project.activeProject}</h2>
             <div>

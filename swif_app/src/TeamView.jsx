@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdAddBox, MdDashboard } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Popup from 'reactjs-popup';
 
 const TeamView = () => {
@@ -171,6 +171,11 @@ const TeamView = () => {
     }
 
     return (<>
+        <nav>
+            <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/view">Project View: {activeProjectId}</Link>
+        </nav>
         <h1>Team Members</h1>
         {(team.length > 0) ? "" : <h4>You have no team members! Click the button below to add one.</h4>}
         {createMemberPopup()}

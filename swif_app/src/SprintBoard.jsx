@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import { MdStackedLineChart, MdPlayArrow, MdCheck } from "react-icons/md";
+import { useNavigate, Link } from "react-router-dom";
 import FunctionalButton from './components/buttons/functionalbutton';
 import EditDateForm from './components/EditDateForm';
 import Card from './components/Card';
@@ -197,6 +196,12 @@ const SprintBoard = () => {
     
     return (<>
         <div>
+        <nav>
+            <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/view">Project View: {activeP.id} &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/sprints">Sprint View: {activeSprint.id} </Link>
+        </nav>
         <h1>Sprint Board</h1>
         <FunctionalButton text = "Back to Sprint Manager" func = {() => navigate("/sprint_manager")}/>
         <FunctionalButton text = "Show burndown chart" func = {() => navigate("/burndown_chart")}/>

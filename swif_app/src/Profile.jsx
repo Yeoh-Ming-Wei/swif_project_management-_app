@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 const Profile = () => {
@@ -113,6 +114,12 @@ const Profile = () => {
     };
 
     return <>
+        <nav>
+            <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/view">Project View: {activeProjectId} &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/teamView">Team View</Link>
+        </nav>
         <h1>Member Profile</h1>
         <h3>Name: {activeProfile.name}</h3>
         <h3>Email: {activeProfile.email}</h3>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import CreateTaskForm from './components/CreateTaskForm';
 import { MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
@@ -149,6 +150,12 @@ const ProductBacklog = () => {
 
     return (
         <>
+            <nav>
+                <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+                <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+                <Link to="/view">Project View: {activeP.id} &nbsp; | </Link> &nbsp; &nbsp;
+            </nav>
+
             <h1>Product Backlog</h1>
             <hr />
 			<CreateTask />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const loginForm = () => {
     const navigate = useNavigate();
@@ -80,6 +80,7 @@ const loginForm = () => {
 
 const Login = () => {
     return <>
+        <nav><Link to="/login">Login Page</Link></nav>
         <h1>Welcome to Swif!</h1>
         {loginForm()}
     </>

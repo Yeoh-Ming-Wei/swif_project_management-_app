@@ -1,10 +1,11 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Legend, Tooltip} from 'recharts';
+import { Link } from 'react-router-dom';
 
 const BurndownChart = () => {
   const projects = JSON.parse(localStorage.getItem("projects"));
   const activeProjectId = projects.activeProject;
   const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
-  const activeSprintName = projects.activeSprint //JSON.parse(localStorage.getItem("activeSprint"));
+  const activeSprintName = projects.activeSprint
   const sprints = activeProject.sprints;
   const activeSprint = sprints.find(
       sprint => {
@@ -80,6 +81,12 @@ const BurndownChart = () => {
 
   return (
     <>
+      <nav>
+            <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/view">Project View: {activeProjectId} &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/sprints">Sprint View: {activeSprint.id} </Link>
+      </nav>
       <h1>Burndown Chart</h1>
       {renderLineChart}
     </>
