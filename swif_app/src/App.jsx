@@ -16,9 +16,16 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <nav>
-          <Link to="projects">Projects</Link>
-        </nav>
+        {/* <nav>
+          <ul>
+            <Link to="projects">Projects &nbsp;| </Link> &nbsp; &nbsp;
+            <Link to="/project-view">Project View &nbsp;| </Link> &nbsp; &nbsp;
+            <Link to="/product-backlog">Product Backlog &nbsp;| </Link> &nbsp; &nbsp;
+            <Link to="/sprint-view">Sprint View &nbsp;| </Link> &nbsp; &nbsp;
+            <Link to="/sprint-backlog">Sprint Backlog &nbsp;| </Link> &nbsp; &nbsp;
+            <Link to="/team">Team</Link> &nbsp;
+          </ul>
+        </nav> */}
         <div style={{display:"flex", flexDirection:"row", justifyContent:"space-evenly"}}>
           Adjust font size:
           <div>
@@ -50,6 +57,8 @@ function App() {
       <Routes>
           <Route index element={<Projects />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="/project-view" element={<ProjectView />} />
+          <Route path="/sprint-view" element={<SprintView />} />
           <Route path="view" element={<ProjectView />} />
           <Route path="product-backlog" element={<ProductBacklog />} />
           <Route path="sprints" element={<SprintView />} />

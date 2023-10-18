@@ -4,6 +4,8 @@ import InputTextArea from "./components/InputTextArea";
 
 import { MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
+import { Link } from 'react-router-dom';
+
 
 const ProductBacklog = () => {
     const defaultName = 'Product Backlog';
@@ -316,7 +318,16 @@ const ProductBacklog = () => {
     };
 
     return (
-        <>  
+        <> 
+            <nav>
+                <Link to="projects">Projects &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/project-view">Project View &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/product-backlog">Product Backlog &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/sprint-view">Sprint View &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/sprint-backlog">Sprint Backlog &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/team">Team</Link> &nbsp;
+            </nav>
+
             <div onDragOver={onDragOver} onDrop={moveToProductBacklog}>
                 <h1>{productName}</h1>
                 <div>

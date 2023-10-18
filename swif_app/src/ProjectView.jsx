@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MdList, MdDelete, MdDirectionsRun } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const ProjectView = () => {
     const getProject = () => {
@@ -77,6 +78,10 @@ const ProjectView = () => {
 
     return (
         <>
+            <nav>
+            <Link to="/projects">Projects &nbsp;| </Link> &nbsp;
+            <Link to="/team">Team</Link>
+            </nav>
             <h1>Project View</h1>
             <h2>Project Name: {project.activeProject}</h2>
             <div>

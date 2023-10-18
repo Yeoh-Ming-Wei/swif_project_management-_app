@@ -4,6 +4,7 @@ import { MdFolder, MdAddBox } from "react-icons/md";
 import Popup from 'reactjs-popup';
 
 const Projects = () => {
+
     const INITIAL_PROJECTS = {
         // testCount: 0,
         projects: [],
@@ -138,6 +139,10 @@ const Projects = () => {
 
     return (
         <>
+            <nav>
+            <Link to="/projects">Projects &nbsp;| </Link> &nbsp;
+            <Link to="/team">Team</Link>
+            </nav>
             <h1>Projects</h1>
             {projectDisplay}
             {createProjectPopup()}
