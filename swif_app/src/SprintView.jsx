@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
 import Popup from 'reactjs-popup';
+import { Link } from 'react-router-dom';
 
 const SprintView = () => {
     const projects = JSON.parse(localStorage.getItem("projects"));
@@ -45,6 +46,14 @@ const SprintView = () => {
 
     const createSprintElement = (sprintName) => {
         return <>
+            <nav>
+                <Link to="projects">Projects &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/project-view">Project View &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/product-backlog">Product Backlog &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/sprint-view">Sprint View &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/sprint-backlog">Sprint Backlog &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/team">Team</Link> &nbsp;
+            </nav>
             <button 
                 type="button" 
                 className="button" 
@@ -147,7 +156,17 @@ const SprintView = () => {
     console.log('test', sprints)
     const sprintDisplay = sprints.map((sprint) => createSprintElement(sprint.id));
 
-    return (<>
+    return (
+    <>
+        <nav>
+                <Link to="projects">Projects &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/project-view">Project View &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/product-backlog">Product Backlog &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/sprint-view">Sprint View &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/sprint-backlog">Sprint Backlog &nbsp;| </Link> &nbsp; &nbsp;
+                <Link to="/team">Team</Link> &nbsp;
+        </nav>
+
         {/* {sprints} */}
         {/* {sprintName} */}
         <h1>Sprint View</h1>
