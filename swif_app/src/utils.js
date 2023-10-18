@@ -1,4 +1,5 @@
 const calculateMemberEffort = (activeProject, activeSprint, memberTasks) => {
+    console.log('membertasks',memberTasks)
     const startDate = new Date(activeSprint.startDate);
     const endDate = new Date(activeSprint.endDate);
     const durationDays = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
@@ -16,11 +17,17 @@ const calculateMemberEffort = (activeProject, activeSprint, memberTasks) => {
         ).reduce(
             (acc, taskId) => {
                 const task = memberTasks.find((task) => task.id == taskId);
+                if (task == undefined) {
+                    console.log('task undefined, breaking')
+                    return acc;
+                }
                 const taskStartDate = new Date(task.startDate);
                 const taskEndDate = new Date(task.endDate);
-
+                
+                console.log('comparing dates!', newDate, taskStartDate, taskEndDate)
                 if (newDate >= taskStartDate && newDate <= taskEndDate) {
                     const hours = (taskEndDate - taskStartDate) / 3600000;
+                    console.log('logging hours!', hours)
                     return acc + hours;
                 } else {
                     return acc;
