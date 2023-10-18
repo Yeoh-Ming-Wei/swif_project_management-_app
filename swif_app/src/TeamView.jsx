@@ -164,7 +164,7 @@ const TeamView = () => {
     }
 
     const dashBoardButton = () => {
-        return <button type="button" className="button" onClick={() => navigate("/team_dashboard")}>
+        return <button type="button" className="button" onClick={() => navigate('/team-dashboard')}>
             <div><MdDashboard size={36} /></div>
             <div>View Team Dashboard</div>
         </button>;

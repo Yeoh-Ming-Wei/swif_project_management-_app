@@ -9,7 +9,6 @@ import MissingPage from "./MissingPage";
 import ProductBacklog from './ProductBacklog';
 import SprintView from "./SprintView";
 import SprintManager from "./SprintManager";
-import Team from './Team';
 import SprintBoard from "./SprintBoard";
 import BurndownChart from "./BurndownChart";
 import FunctionalButton from "./components/buttons/functionalbutton";
@@ -30,6 +29,16 @@ function App() {
 
   return (
     <BrowserRouter>      
+      <nav>
+        <Link to="login">Login Page &nbsp;| </Link> &nbsp; &nbsp;
+        <Link to="profile">Profile &nbsp;| </Link> &nbsp; &nbsp;
+        <Link to="projects">Projects &nbsp;| </Link> &nbsp; &nbsp; 
+        <Link to="view">Project View &nbsp;| </Link> &nbsp; &nbsp;
+        <Link to="product-backlog">Product Backlog &nbsp;| </Link> &nbsp; &nbsp;
+        <Link to="sprints">Sprint View &nbsp;| </Link> &nbsp; &nbsp;
+        <Link to="sprint_board">Sprint Board &nbsp;| </Link> &nbsp; &nbsp;
+        <Link to="TeamView">Team View &nbsp; </Link> &nbsp; &nbsp;
+      </nav>
       <div> &nbsp; </div>
       <div style={{display:"flex", flexDirection:"row", justifyContent:"space-evenly"}}>
         Adjust font size:
@@ -53,10 +62,10 @@ function App() {
           <Route path="sprint_manager" element={<SprintManager />} />
           <Route path="burndown_chart" element={<BurndownChart />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="team" element={<Team />} />
           <Route path="effort_graph" element={<EffortGraph />} />
           <Route path="team_dashboard" element ={<TeamDashboard />} />
           <Route path="*" element={<MissingPage />} />
+          <Route path="/team-dashboard" element={<TeamDashboard />} />
       </Routes>
       
     </BrowserRouter>
