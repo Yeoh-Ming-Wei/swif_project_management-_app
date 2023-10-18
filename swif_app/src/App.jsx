@@ -16,6 +16,7 @@ import FunctionalButton from "./components/buttons/functionalbutton";
 import Login from "./Login";
 import Profile from "./Profile";
 import EffortGraph from "./EffortGraph";
+import TeamDashboard from "./TeamDashboard";
 
 // useful reference: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
 function App() {
@@ -54,6 +55,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="team" element={<Team />} />
           <Route path="effort_graph" element={<EffortGraph />} />
+          <Route path="team_dashboard" element ={<TeamDashboard />} />
           <Route path="*" element={<MissingPage />} />
       </Routes>
       
