@@ -1,4 +1,5 @@
 import React from 'react';
+//import { calculateMemberEffort } from ; // Adjust the path accordingly
 
 const TeamDashboard = () => {
     const projects = JSON.parse(localStorage.getItem("projects"));
@@ -9,10 +10,7 @@ const TeamDashboard = () => {
     return (
         <div className="team-dashboard-container">
             <h1>Team Dashboard</h1>
-            <div className="project-dates">
-                <p>Start Date: {activeProject.startDate}</p>
-                <p>End Date: {activeProject.endDate}</p>
-            </div>
+            
             <div className="members-list">
                 {teamMembers.map(member => (
                     <div className="member-card" key={member.id}>
@@ -25,5 +23,27 @@ const TeamDashboard = () => {
         </div>
     );
 };
+
+
+
+
+
+const createAccountCard = (account) => {
+    const memberTasks = activeProject.tasks.filter(task => task.assignee === account.name);
+    const effort = calculateMemberEffort(activeProject, activeSprint, memberTasks);
+
+    return (
+        <div id={account.id} className="member-card">
+            
+            <p>Total Work Hours: {effort.totalHours}</p>
+            <p>Total Work Days: {effort.totalDays}</p>
+            
+        </div>
+    );
+}
+
+
+
+
 
 export default TeamDashboard;
