@@ -57,7 +57,7 @@ const TeamView = () => {
     }
 
     const removeMember = (account) => {
-        setTeam(team.filter((member) => {member.id != account.id}));
+        setTeam(team.filter((member) => member.id != account.id));
     }
 
     const viewProfile = (member) => {
