@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { MdAddBox, MdDirectionsRun } from "react-icons/md";
 import Popup from 'reactjs-popup';
-import { Link } from 'react-router-dom';
+import FunctionalButton from './components/buttons/functionalbutton';
 
 const SprintView = () => {
     const projects = JSON.parse(localStorage.getItem("projects"));
     const activeProjectId = projects.activeProject;
     const activeProject = projects.projects.find((project) => {return project.id == activeProjectId});
     const [sprints, setSprints] = useState(activeProject.sprints);
-    const [sprintName, setSprintName] = useState("");
-    const [sprintStartDate, setSprintStartDate] = useState("");
-    const [sprintEndDate, setSprintEndDate] = useState("");
     const [activeSprintName, setActiveSprint] = useState("");
     const navigate = useNavigate();
 
@@ -31,40 +28,71 @@ const SprintView = () => {
         localStorage.setItem("projects", JSON.stringify(newProjects)); // convert to string before storing
     }, [sprints]);
 
-    console.log('test1', sprints)
-    // const activeSprint = sprints.find(
-    //     sprint => {
-    //         console.log("checking", sprint);
-    //         return sprint.id === activeSprintName;
-    //     }
-    // );
-
     useEffect(() => {
         console.log("updating active sprint to local storage", activeSprintName);
-        localStorage.setItem("activeSprint", JSON.stringify(activeSprintName)); // convert to string before storing
+        projects.activeSprint = activeSprintName
+        localStorage.setItem("projects", JSON.stringify(projects)); // convert to string before storing
     }, [activeSprintName]);
 
-    const createSprintElement = (sprintName) => {
+    const deleteSprint = (id) => {
+        setSprints(sprints.filter(s => s.id != id))
+    }
+
+    const startSprint = (id) => {
+        const s = sprints.map(s => {
+            if (s.id === id && s.sprintBacklog.length == 0) {
+                alert("There is no task inside sprint backlog!")
+                return s
+            }
+            
+            if (s.id === id && s.status === "Not Started") {
+                s.status = "In Progress" 
+                s.started = true
+                alert("Sprint starts!");
+                return s
+            }
+            
+            if (s.id === id && s.status === "In Progress") {
+                alert("Sprint is already in progress!");
+                return s
+            }
+
+            if (s.id === id && s.status === "Completed") {
+                alert("You can't start a completed sprint!")
+                return s
+            }
+        })
+        setSprints(s)
+    }
+
+    const createSprintElement = (sprint) => {
         return <>
-            <nav>
-                <Link to="projects">Projects &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/project-view">Project View &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/product-backlog">Product Backlog &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/sprint-view">Sprint View &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/sprint-backlog">Sprint Backlog &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/team">Team</Link> &nbsp;
-            </nav>
-            <button 
-                type="button" 
-                className="button" 
-                onClick={() => navigate("/sprint_board")}
-                onMouseEnter={() => setActiveSprint(sprintName)}
-            >
-                <div><MdDirectionsRun size={80} /></div>
-                <div>{sprintName}</div>
-            </button> 
+            <div>
+                <button style={{borderStyle: "solid", borderColor : "white"}}
+                    type="button" 
+                    className="button" 
+                    onClick={() => navigate("/sprint_manager")}
+                    onMouseEnter={() => setActiveSprint(sprint.id)}
+                >
+                    <div>
+                        <div>
+                        <MdDirectionsRun size={80} />
+                        </div>
+                        {sprint.id}
+                        <p>Start Date: {sprint.startDate.replace("T", " ")}</p>
+                        <p>End Date: {sprint.endDate.replace("T", " ")}</p>
+                        <p>Status: {sprint.status}</p>
+                    </div>
+                </button> 
+                <div>
+                    <FunctionalButton text="Start Sprint" func={() => startSprint(sprint.id)} />
+                    <FunctionalButton text="Delete Sprint" func={() => deleteSprint(sprint.id)} />
+                </div>
+                &nbsp;
+                &nbsp;
+            </div>
             &nbsp;
-            &nbsp;
+            
         </>
     }
 
@@ -87,16 +115,18 @@ const SprintView = () => {
         event.preventDefault();
         console.log('submitting form');
 
-        if (!isValidSprintName(sprintName)) { return }; // don't accept invalid names
-
+        const elementValue = (str) => (document.getElementById(str).value);
+        if (!isValidSprintName(elementValue('sprintName'))) { return }; // don't accept invalid names
+        
         const newSprint = {
-            id: sprintName,
+            id: elementValue("sprintName"),
             sprintBacklog: [],
-            startDate: sprintStartDate,
-            endDate: sprintEndDate,
+            startDate: elementValue("sprintStartTime"),
+            endDate: elementValue("sprintEndTime"),
+            status: "Not Started",
             started: false,
         };
-
+        console.log(newSprint)
         setSprints(
             sprints.concat(newSprint)
         );
@@ -108,8 +138,7 @@ const SprintView = () => {
                 <label>
                     Enter new sprint name: <input 
                     type="text" 
-                    value={sprintName}
-                    onChange={(e) => setSprintName(e.target.value)}
+                    id = "sprintName"
                     />
                 </label>
                 <br />
@@ -117,14 +146,13 @@ const SprintView = () => {
                     Enter sprint start date: <input
                     type = "datetime-local"
                     id = "sprintStartTime"
-                    onChange={(e) => setSprintStartDate(e.target.value)}
                     />
                 </label>
                 <br />
                 <label>Enter sprint end date: <input
                     type = "datetime-local"
                     id = "sprintEndTime"
-                    onChange={(e) => setSprintEndDate(e.target.value)}/>
+                    />
                 </label>
                 <br />
                 <input type="submit" value="Add Sprint"/>
@@ -154,21 +182,15 @@ const SprintView = () => {
     };
 
     console.log('test', sprints)
-    const sprintDisplay = sprints.map((sprint) => createSprintElement(sprint.id));
+    const sprintDisplay = sprints.map((sprint) => createSprintElement(sprint));
 
-    return (
-    <>
+    return (<>
         <nav>
-                <Link to="projects">Projects &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/project-view">Project View &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/product-backlog">Product Backlog &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/sprint-view">Sprint View &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/sprint-backlog">Sprint Backlog &nbsp;| </Link> &nbsp; &nbsp;
-                <Link to="/team">Team</Link> &nbsp;
+            <Link to="/login">Login Page  &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/projects">Projects &nbsp; | </Link> &nbsp; &nbsp;
+            <Link to="/view">Project View: {activeProjectId}</Link>
         </nav>
 
-        {/* {sprints} */}
-        {/* {sprintName} */}
         <h1>Sprint View</h1>
         
         {(sprints.length > 0) ? "" : <h4>You have no sprints! Click the button below to add one.</h4>}
